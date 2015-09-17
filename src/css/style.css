@@ -1,0 +1,22 @@
+.toc-toc { position: relative; } /* anchor for .select-menu-modal-holder */
+.toc-toc .select-menu-modal-holder { right: 0; } /* right-align menu on button */
+.toc-toc.toc-fix-btn .btn { margin: -4px 0; }
+
+.toc-h1 { font-size: 1.1em; font-weight: bold;}
+.toc-h2 { padding-left: 20px; font-weight: bold;}
+.toc-h3 { padding-left: 40px; font-weight: normal;}
+.toc-h4 { padding-left: 60px; font-weight: normal;}
+.toc-h5 { padding-left: 80px; font-weight: normal;}
+.toc-h6 { padding-left: 100px; font-weight: normal;}
+
+.toc-toc .select-menu-item {
+    color: black;
+    border: none;
+    line-height: 1.0;
+}
+
+.toc-toc .navigation-focus { color: white; }
+
+.toc-backlink { color: black; }
+
+
