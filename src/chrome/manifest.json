@@ -1,11 +1,11 @@
 {
     "manifest_version": 2,
     "name": "GitHub - Readme Table of Contents",
-    "short_name": "GitHub Readme TOC",
-    "version": "0.1",
+    "short_name": "GitHub - TOC",
+    "version": "0.2.1",
     "author": "Arthur Hammer",
-    "homepage_url": "https://github.com/a-hammer/github-readme-toc",
-    "description": "Add a table of contents to GitHub Readmes. Makes reading easier.",
+    "homepage_url": "https://github.com/arthurhammer/github-readme-toc",
+    "description": "Table of Contents for Readmes in GitHub Repos, Gists and Wikis.",
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
@@ -14,14 +14,14 @@
     "content_scripts": [
         {
             "matches": ["https://github.com/*/*", "https://gist.github.com/*/*"],
-            "css": ["css/style.css"],
-            "js": ["js/github-toc.js"]
+            "css": ["style.css"],
+            "js": ["github-toc.js"]
         }
     ],
     "permissions": ["storage"],
-    "web_accessible_resources": ["html/options.html"],
+    "web_accessible_resources": ["preferences.html"],
     "options_ui": {
-        "page": "html/options.html",
+        "page": "preferences.html",
         "chrome_style": true
     }
 }

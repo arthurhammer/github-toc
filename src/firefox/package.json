@@ -1,0 +1,22 @@
+{
+    "title": "GitHub - Readme Table of Contents",
+    "name": "github-readme-toc",
+    "version": "0.2.1",
+    "description": "Table of Contents for Readmes in GitHub Repos, Gists and Wikis.",
+    "main": "index.js",
+    "author": "Arthur Hammer",
+    "homepage": "https://github.com/arthurhammer/github-readme-toc",
+    "icon": "icon.png",
+    "preferences": [{
+        "title": "Back-to-Top Links",
+        "description": "Adds a button to headings to quickly get back to the table of contents.",
+        "type": "bool",
+        "name": "backlinks",
+        "value": true
+    }],
+    "engines": {
+        "firefox": ">=38.0a1",
+        "fennec": ">=38.0a1"
+    },
+    "license": "MIT"
+}

@@ -3,7 +3,7 @@ function save() {
 
     chrome.storage.sync.set({ backlinks: backlinks }, function() {
         var status = document.getElementById("status");
-        status.textContent = "Changes take effect after reloading the affected GitHub pages.";
+        status.textContent = "Reload pages for changes to take effect.";
   });
 }
 
