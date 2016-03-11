@@ -85,7 +85,7 @@ function insertToc(toc, readme) {
 function insertBackLink(heading) {
     if (! preferences.backlinks) return;
     var backlink = toElement(templates.backlink);
-    heading.addEventListener('mouseover',  function() { heading.appendChild(backlink); });
+    heading.addEventListener('mouseenter',  function() { heading.appendChild(backlink); });
     heading.addEventListener('mouseleave', function() { backlink.remove(); });
 }
 

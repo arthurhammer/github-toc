@@ -1,16 +1,16 @@
 /* Anchor for .select-menu-modal-holder */
 #toc-toc { position: relative; }
 /* Right-align menu on button */
-#toc-toc > .select-menu-modal-holder { right: 0; }
+#toc-toc > .select-menu-modal-holder { right: 0; top: 20px;}
 /* Center button in file actions bar */
 .toc-center-btn  { margin: -4px 0; }
 
-.toc-h1 { font-size:    1.1em; font-weight: bold;}
-.toc-h2 { padding-left:  20px; font-weight: bold;}
-.toc-h3 { padding-left:  40px; font-weight: normal;}
-.toc-h4 { padding-left:  60px; font-weight: normal;}
-.toc-h5 { padding-left:  80px; font-weight: normal;}
-.toc-h6 { padding-left: 100px; font-weight: normal;}
+.toc-h1 { padding-left:  10px !important; font-weight: bold; font-size: 1.1em; }
+.toc-h2 { padding-left:  30px !important; font-weight: bold; }
+.toc-h3 { padding-left:  50px !important; font-weight: normal; }
+.toc-h4 { padding-left:  70px !important; font-weight: normal; }
+.toc-h5 { padding-left:  90px !important; font-weight: normal; }
+.toc-h6 { padding-left: 110px !important; font-weight: normal; }
 
 .toc-entry.select-menu-item {
     color: black;
@@ -21,3 +21,4 @@
 .toc-entry.select-menu-item.navigation-focus { color: white; }
 
 .toc-backlink { color: black; }
+.toc-backlink > svg { vertical-align: middle; }
