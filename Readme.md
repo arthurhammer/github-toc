@@ -1,22 +1,24 @@
-## GitHub - Readme Table of Contents
+## Table of Contents for GitHub
 
-Simple browser extension that adds a table of contents to GitHub Readmes, Wikis, and Gists.
+Browser extension that adds a table of contents to readmes in GitHub repos, gists and wikis. Quickly find what you are looking for.
 
-Quickly find what you are looking for.
+Available for [Google Chrome](https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/), and as a [userscript](https://github.com/arthurhammer/github-readme-toc/raw/master/dist/github-toc.user.js).
 
-![Screenshot](img/screenshots/screenshot-github.png)
+<img style="border: 1px solid lightgrey; border-radius: 5px;" src="img/screenshots/screenshot-github.png">
 
-## Install
+## Get It
 
-🚀 **[Install from Chrome Web Store](https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn)**.
+🚀 **[Chrome Web Store](https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn)**
 
-🚀 **[Install from Mozilla Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/)**.
+🚀 **[Mozilla Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/)**
 
-🚀 **[Install Userscript](https://github.com/arthurhammer/github-readme-toc/raw/master/dist/github-toc.user.js)**.
+🚀 **[Userscript](https://github.com/arthurhammer/github-readme-toc/raw/master/dist/github-toc.user.js)**
 
-(Currently does not work in Safari due to Safari's enforcement of Content Security Policies for extensions and scripts.)
+A Safari extension is coming soon.
 
-## Build
+## Build Yourself
+
+You need [`node`](https://nodejs.org/) and [`gulp`](http://gulpjs.com/).
 
     # Install development dependencies
     npm install
@@ -35,7 +37,12 @@ To try the extension out, test it on some of the [files linked in the `test` fol
 
 ## Changelog
 
+### 0.2.2
+
+- Fixed several issues caused by updates to the GitHub website
+- Various minor updates
+
 ### 0.2.1
 
-- Add Firefox version
-- Add userscript version
+- Added Firefox version
+- Added userscript version

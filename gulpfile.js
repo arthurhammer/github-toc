@@ -92,7 +92,7 @@ gulp.task('userscript', function() {
 function buildJS(additions) {
     return gulp.src('src/github-toc.js')
         .pipe($.addSrc.prepend(additions))
-        .pipe($.jsHtmlInjectTmp())
+        .pipe($.jsHtmlInjectTmp({pattern: /['']@@import ([a-zA-Z0-9\-_.\\/]+)['']/g}))
         .pipe($.concat('github-toc.js'))
         .pipe($.wrap('(function() {\n\n<%= contents %>\n})();'));
 }

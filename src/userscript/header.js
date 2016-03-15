@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         GitHub - Readme Table of Contents
-// @description  Table of Contents for Readmes in GitHub Repos, Gists and Wikis.
-// @version      0.2.1
+// @name         Table of Contents for GitHub
+// @description  Adds a table of contents to readmes in GitHub repos, gists and wikis.
+// @version      0.2.2
 // @author       Arthur Hammer
 // @namespace    https://github.com/arthurhammer
 // @license      MIT

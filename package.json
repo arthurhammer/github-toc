@@ -1,7 +1,7 @@
 {
   "name": "github-readme-toc",
-  "version": "0.2.1",
-  "description": "Table of Contents for Readmes in GitHub Repos, Gists and Wikis.",
+  "version": "0.2.2",
+  "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
   "author": "Arthur Hammer",
   "homepage": "https://github.com/arthurhammer/github-readme-toc",
   "repository": {
