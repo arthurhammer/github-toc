@@ -4,7 +4,7 @@
   "short_name": "GitHub ToC",
   "version": "0.2.2",
   "author": "Arthur Hammer",
-  "homepage_url": "https://github.com/arthurhammer/github-readme-toc",
+  "homepage_url": "https://github.com/arthurhammer/github-toc",
   "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
   "icons": {
     "16": "icons/icon16.png",

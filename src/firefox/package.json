@@ -1,11 +1,11 @@
 {
   "title": "Table of Contents for GitHub",
-  "name": "github-readme-toc",
+  "name": "github-toc",
   "version": "0.2.2",
   "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
   "main": "index.js",
   "author": "Arthur Hammer",
-  "homepage": "https://github.com/arthurhammer/github-readme-toc",
+  "homepage": "https://github.com/arthurhammer/github-toc",
   "icon": "icon.png",
   "engines": {
     "firefox": ">=38.0a1",
