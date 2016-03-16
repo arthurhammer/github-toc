@@ -1,7 +1,3 @@
-function getPreferences(defaults, callback) {
-    callback(defaults);
-}
-
 // Injected with gulp
 var css = '@@import src/style.css';
 

@@ -18,22 +18,22 @@ A Safari extension is coming soon.
 
 ## Build Yourself
 
-You need [`node`](https://nodejs.org/) and [`gulp`](http://gulpjs.com/).
+You need [`node`](https://nodejs.org/).
 
     # Install development dependencies
     npm install
 
     # Build unpackaged extensions
-    gulp build
+    npm run build
 
-    # Build packaged extensions for distribution
-    gulp dist
+    # Build extensions packaged for distribution
+    npm run dist
 
-(You don't have to run `gulp build` before `gulp dist` manually.)
+The builds live in the [`dist`](dist/) folder.
 
-The builds live in the `dist` folder.
+[`gulp`](http://gulpjs.com/) is used to run the tasks.
 
-To try the extension out, test it on some of the [files linked in the `test` folder](https://github.com/arthurhammer/github-readme-toc/blob/master/test/Readme.md).
+To try the extension out, test it on some of the [files linked in the `test` folder](test/Readme.md).
 
 ## Changelog
 

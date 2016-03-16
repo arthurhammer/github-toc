@@ -1,110 +1,102 @@
-// Inserted with gulp
-var TEMPLATE = {
-    TOC      : '@@import src/html/toc.html',
-    ENTRY    : '@@import src/html/entry.html',
-    BACKLINK : '@@import src/html/backlink.html'
+var extPrefix = 'github-toc';
+var anchorIdGitHubPrefix = 'user-content-';
+
+var templates = {
+  // Inserted with gulp
+  toc      : '@@import src/html/toc.html',
+  entry    : '@@import src/html/entry.html',
+  backlink : '@@import src/html/backlink.html'
 };
 
-var CLASS = {
-    CENTER_BUTTON : 'toc-center-btn',
-    WIKI_ACTIONS  : 'gh-header-actions'
+var classes = {
+  centerButton : extPrefix + '-center-btn',
+  wikiActions  : 'gh-header-actions',
+  floatRight   : 'right'
 };
 
-var SELECTOR = {
-    README          : '#readme .markdown-body, #wiki-wrapper .markdown-body',
-    TOC_ENTRIES     : '#toc-entries',
-    // Toc targets
-    REPO            : '#readme > h3',
-    GIST            : '.file > .file-header > .file-actions',
-    WIKI            : '#wiki-wrapper > .gh-header .gh-header-actions',
-    WIKI_LOGGED_OUT : '#wiki-wrapper > .gh-header > .gh-header-show',
+var selectors = {
+  tocContainer : '#' + extPrefix + '-container',
+  tocEntries   : '#' + extPrefix + '-entries',
+  readme       : '#readme .markdown-body, #wiki-wrapper .markdown-body',
+  // Toc targets
+  repo         : '#readme > h3',
+  repoAlt      : '.file > .file-header > .file-actions',
+  wiki         : '#wiki-wrapper > .gh-header .gh-header-actions',
+  wikiAlt      : '#wiki-wrapper > .gh-header',
+  // Heading anchors (relative to heading)
+  hAnchor      : ':scope a.anchor',
+  hAnchorAlt   : 'ins a.anchor'  // Rich diff previews (when editing files)
 };
 
-// TODO
-var EXT_PREFIX = 'github-toc';
+var insertTocFuncs = {
+  // Repo main page
+  repo: function(toc, target) {
+    toc.classList.add(classes.floatRight);
+    toc.firstElementChild.classList.add(classes.centerButton);
+    return target.appendChild(toc);
+  },
+  // Repo sub page (viewing, creating, editing files) and gists
+  repoAlt: function(toc, target) {
+    toc.firstElementChild.classList.add(classes.centerButton);
+    return target.prependChild(toc);
+  },
+  // Wiki main and sub page (viewing, editing existing pages)
+  wiki: function(toc, target) {
+    return target.prependChild(toc);
+  },
+  // Wiki main and sub page without actions bar (logged out or creating new pages)
+  wikiAlt: function(toc, target) {
+    toc.classList.add(classes.wikiActions);
+    return target.prependChild(toc);
+  }
+};
 
 var defaults = {
-    backlinks: true
+  backlinks: true
 };
 
-HTMLElement.prototype.arrive = function(selector, existing, callback) {
-    function checkMutations() {
-        var target = document.querySelector(selector);
-        if (target) callback.call(target, target);
-    }
+document.body.arrive(selectors.readme, true, function(readme) {
 
-    new MutationObserver(checkMutations)
-        .observe(this, { childList: true, subtree: true });
+  if (!readme || readme.classList.contains(extPrefix)) return;
+  readme.classList.add(extPrefix);
 
-    if (existing) checkMutations();
-};
+  var existing = query(selectors.tocContainer);
+  if (existing) existing.remove();
 
-document.body.arrive(SELECTOR.README, true, function(readme) {
-    if (!readme || readme.classList.contains('toc')) return;
-    readme.classList.add('toc');
-    if (!insertToc(toElement(TEMPLATE.TOC))) return;
+  var tocContainer = toElement(templates.toc);
+  if (!insertToc(tocContainer)) return;
 
-    TableOfContents.toc({
-        target: SELECTOR.TOC_ENTRIES,
-        scope: readme,
-        prefix: EXT_PREFIX,
-        anchorID: function(_, heading) {
-            return heading.firstElementChild ? heading.firstElementChild.href.split('#')[1] : null;
-        },
-        entryElement: makeEntry
+  TableOfContents.toc({
+    target: selectors.tocEntries,
+    content: readme,
+    prefix: extPrefix,
+    anchorId: getAnchorId,
+    entryElement: makeEntry
+  });
+
+  function getAnchorId(_, heading) {
+    var anchor = query(selectors.hAnchor, heading) || query(selectors.hAnchorAlt, heading);
+    return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
+  }
+
+  function makeEntry(_, heading, data) {
+    if (!data.anchorId) return;
+    var entry = toElement(templates.entry);
+    entry.classList.add(data.entryClass);
+    entry.href = '#' + data.anchorId;
+    entry.firstElementChild.title = data.title;
+    entry.firstElementChild.textContent = data.title;
+    if (defaults.backlinks) heading.appendChild(toElement(templates.backlink));
+    return entry;
+  }
+
+  function insertToc(toc) {
+    var targets = ['repo', 'repoAlt', 'wiki', 'wikiAlt'];
+
+    return targets.some(function(key) {
+      var target = query(selectors[key]);
+      return target ? insertTocFuncs[key](toc, target) : false;
     });
+  }
 
-    function makeEntry(_, heading, config) { // TODO: if anchorID null skip element?
-        var entry = toElement(TEMPLATE.ENTRY);
-        entry.classList.add(config.entryClass);
-        entry.href = '#' + config.anchorID;
-        entry.firstElementChild.title = config.title;
-        entry.firstElementChild.textContent = config.title;
-        if (defaults.backlinks) heading.appendChild(toElement(TEMPLATE.BACKLINK));
-        return entry;
-    }
-
-    function insertToc(toc) {
-        var target;
-
-        // Repo main page
-        target = document.querySelector(SELECTOR.REPO);
-        if (target) {
-            toc.classList.add('right');
-            toc.firstElementChild.classList.add(CLASS.CENTER_BUTTON);
-            target.appendChild(toc);
-            return true;
-        }
-
-        // Repo sub page (viewing and editing), Gist page
-        target = document.querySelector(SELECTOR.GIST);
-        if (target) {
-            toc.firstElementChild.classList.add(CLASS.CENTER_BUTTON);
-            target.insertBefore(toc, target.firstChild);
-            return true;
-        }
-
-        // Wiki main and sub page (viewing and editing)
-        target = document.querySelector(SELECTOR.WIKI);
-        if (target) {
-            target.insertBefore(toc, target.firstChild);
-            return true;
-        }
-
-        // Wiki main and sub page when logged out
-        target = document.querySelector(SELECTOR.WIKI_LOGGED_OUT);
-        if (target) {
-            toc.classList.add(CLASS.WIKI_ACTIONS);
-            target.insertBefore(toc, target.firstChild);
-            return true;
-        }
-
-        return false;
-    }
-
-    function toElement(str) {
-        var d = document.createElement('div');
-        d.innerHTML = str;
-        return d.firstChild;
-    }
 });

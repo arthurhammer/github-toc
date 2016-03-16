@@ -1,32 +1,27 @@
-/* Anchor for .select-menu-modal-holder */
-#toc-toc { position: relative; }
-/* Right-align menu on button */
-#toc-toc > .select-menu-modal-holder { right: 0; top: 20px;}
-/* Center button in file actions bar */
-.toc-center-btn  { margin: -4px 0; }
+#github-toc-container { position: relative; } /* Anchor for .select-menu-modal-holder */
+#github-toc-container > .select-menu-modal-holder { right: 0; top: 20px;} /* Right-align menu on button */
+.github-toc-center-btn  { margin: -4px 0; } /* Center button in file actions bar */
 
-.toc-h1 { padding-left:  10px !important; font-weight: bold; font-size: 1.1em; }
-.toc-h2 { padding-left:  30px !important; font-weight: bold; }
-.toc-h3 { padding-left:  50px !important; font-weight: normal; }
-.toc-h4 { padding-left:  70px !important; font-weight: normal; }
-.toc-h5 { padding-left:  90px !important; font-weight: normal; }
-.toc-h6 { padding-left: 110px !important; font-weight: normal; }
+.github-toc-h1 { padding-left:  10px !important; font-weight: bold; font-size: 1.1em; }
+.github-toc-h2 { padding-left:  30px !important; font-weight: bold; }
+.github-toc-h3 { padding-left:  50px !important; font-weight: normal; }
+.github-toc-h4 { padding-left:  70px !important; font-weight: normal; }
+.github-toc-h5 { padding-left:  90px !important; font-weight: normal; }
+.github-toc-h6 { padding-left: 110px !important; font-weight: normal; }
 
-.toc-entry.select-menu-item {
+.github-toc-entry.select-menu-item {
     color: black;
     border: none;
     line-height: 1.0;
 }
 
-.toc-entry.select-menu-item.navigation-focus { color: white; }
+.github-toc-entry.select-menu-item.navigation-focus { color: white; }
 
-.toc-backlink { color: black; display: none; }
-.toc-backlink > svg { vertical-align: middle; }
-h1:hover > .toc-backlink,
-h2:hover > .toc-backlink,
-h3:hover > .toc-backlink,
-h4:hover > .toc-backlink,
-h5:hover > .toc-backlink,
-h6:hover > .toc-backlink {
-    display: block;
-}
+.github-toc-backlink { color: black; display: none; }
+.github-toc-backlink > svg { vertical-align: middle; }
+h1:hover > .github-toc-backlink,
+h2:hover > .github-toc-backlink,
+h3:hover > .github-toc-backlink,
+h4:hover > .github-toc-backlink,
+h5:hover > .github-toc-backlink,
+h6:hover > .github-toc-backlink { display: block; }

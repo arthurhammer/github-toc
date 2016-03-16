@@ -1,27 +1,21 @@
 {
-    "manifest_version": 2,
-    "name": "Table of Contents for GitHub",
-    "short_name": "GitHub ToC",
-    "version": "0.2.2",
-    "author": "Arthur Hammer",
-    "homepage_url": "https://github.com/arthurhammer/github-readme-toc",
-    "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
-    "icons": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
-    },
-    "content_scripts": [
-        {
-            "matches": ["https://github.com/*/*", "https://gist.github.com/*/*"],
-            "css": ["style.css"],
-            "js": ["github-toc.js"]
-        }
-    ],
-    "permissions": ["storage"],
-    "web_accessible_resources": ["preferences.html"],
-    "options_ui": {
-        "page": "preferences.html",
-        "chrome_style": true
-    }
+  "manifest_version": 2,
+  "name": "Table of Contents for GitHub",
+  "short_name": "GitHub ToC",
+  "version": "0.2.2",
+  "author": "Arthur Hammer",
+  "homepage_url": "https://github.com/arthurhammer/github-readme-toc",
+  "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [{
+    "matches": ["https://github.com/*/*", "https://gist.github.com/*/*"],
+    "css": ["style.css"],
+    "js": ["github-toc.js"]
+  }],
+  "permissions": ["storage"]
 }
+
