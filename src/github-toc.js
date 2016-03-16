@@ -1,132 +1,110 @@
-var templates = {
-    // Injected with gulp
-    toc:      '@@import src/html/toc.html',
-    entry:    '@@import src/html/entry.html',
-    backlink: '@@import src/html/backlink.html'
+// Inserted with gulp
+var TEMPLATE = {
+    TOC      : '@@import src/html/toc.html',
+    ENTRY    : '@@import src/html/entry.html',
+    BACKLINK : '@@import src/html/backlink.html'
 };
 
-var preferences = {
+var CLASS = {
+    CENTER_BUTTON : 'toc-center-btn',
+    WIKI_ACTIONS  : 'gh-header-actions'
+};
+
+var SELECTOR = {
+    README          : '#readme .markdown-body, #wiki-wrapper .markdown-body',
+    TOC_ENTRIES     : '#toc-entries',
+    // Toc targets
+    REPO            : '#readme > h3',
+    GIST            : '.file > .file-header > .file-actions',
+    WIKI            : '#wiki-wrapper > .gh-header .gh-header-actions',
+    WIKI_LOGGED_OUT : '#wiki-wrapper > .gh-header > .gh-header-show',
+};
+
+// TODO
+var EXT_PREFIX = 'github-toc';
+
+var defaults = {
     backlinks: true
 };
 
-function onReadme(readme) {
-    if (!readme || readme.classList.contains('toc')) return;
-    readme.classList.add('toc');
-
-    var toc = toElement(templates.toc);
-    var entryContainer = toc.getElementsByClassName('select-menu-list')[0];
-
-    var headings = readme
-        .getElementsByClassName('markdown-body')[0]
-        .querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-    for (var i = 0; i < headings.length; i++) {
-        var h = headings[i];
-        var title = h.textContent.trim();
-        var entry = toElement(templates.entry);
-
-        entry.classList.add('toc-' + h.tagName.toLowerCase());
-        entry.href = h.firstElementChild.href;
-        entry.firstElementChild.title = title;
-        entry.firstElementChild.textContent = title;
-
-        insertBackLink(h);
-        fixAnchorLink(entry);
-        entryContainer.appendChild(entry);
-    }
-
-    insertToc(toc, readme);
-}
-
-// Insert toc into page. Tries destinations (Repo, Gist, Wiki) until success.
-function insertToc(toc, readme) {
-    var target;
-
-    // GitHub repo front page
-    // Append to: #readme > h3
-    target = readme.querySelector(':scope > h3');
-    if (target) {
-        toc.classList.add('right');
-        toc.firstElementChild.classList.add('toc-center-btn');
-        target.appendChild(toc);
-        return;
-    }
-
-    // GitHub repo detail and Gist page
-    // Prepend to: .container .file > .file-header > .file-actions
-    target = readme.closest('.file');
-    if (target) {
-        target = target.querySelector('.file-header > .file-actions');
-        if (target) {
-            toc.firstElementChild.classList.add('toc-center-btn');
-            target.insertBefore(toc, target.firstChild);
-            return;
-        }
-    }
-
-    // Wiki
-    // Prepend to: #wiki-wraper > gh-header > gh-header-show > gh-header-actions
-    target = readme.closest('#wiki-wrapper');
-    if (target) {
-        var parent = target.querySelector('.gh-header > .gh-header-show');
-        target = parent.querySelector('.gh-header-actions');
-
-        // Header-actions don't exist if not logged in
-        if (! target) {
-            target = parent;
-            toc.classList.add('gh-header-actions');
-        }
-
-        target.insertBefore(toc, target.firstChild);
-        return;
-    }
-}
-
-function insertBackLink(heading) {
-    if (! preferences.backlinks) return;
-    var backlink = toElement(templates.backlink);
-    heading.addEventListener('mouseenter',  function() { heading.appendChild(backlink); });
-    heading.addEventListener('mouseleave', function() { backlink.remove(); });
-}
-
-// Clicking anchor link seems to jump to it only first time in some browsers (Chrome)
-function fixAnchorLink(element) {
-    element.addEventListener('click', function() {
-        var githubPrefix = 'user-content-';
-        var targetId = element.href.substring(element.href.indexOf('#') + 1);
-        document.getElementById(githubPrefix + targetId).scrollIntoView();
-    });
-}
-
-function toElement(str) {
-    var d = document.createElement('div');
-    d.innerHTML = str;
-    return d.firstChild;
-}
-
-HTMLElement.prototype.arriveById = function(id, callback) {
-    new MutationObserver(function() {
-        var target = document.getElementById(id);
+HTMLElement.prototype.arrive = function(selector, existing, callback) {
+    function checkMutations() {
+        var target = document.querySelector(selector);
         if (target) callback.call(target, target);
-    })
-    .observe(this, { childList: true, subtree: true });
+    }
 
-    return this;
+    new MutationObserver(checkMutations)
+        .observe(this, { childList: true, subtree: true });
+
+    if (existing) checkMutations();
 };
 
-// Main entry point: Fetch prefs and go.
-//
-// Each version of this extension (Chrome, Firefox, userscript) provides
-// an implementation for the `getPreferences` function.
-getPreferences(preferences, function(data) {
-    preferences = data;
+document.body.arrive(SELECTOR.README, true, function(readme) {
+    if (!readme || readme.classList.contains('toc')) return;
+    readme.classList.add('toc');
+    if (!insertToc(toElement(TEMPLATE.TOC))) return;
 
-    // Setup toc on inital page load
-    onReadme(document.getElementById('readme'));
-    onReadme(document.getElementById('wiki-body'));
+    TableOfContents.toc({
+        target: SELECTOR.TOC_ENTRIES,
+        scope: readme,
+        prefix: EXT_PREFIX,
+        anchorID: function(_, heading) {
+            return heading.firstElementChild ? heading.firstElementChild.href.split('#')[1] : null;
+        },
+        entryElement: makeEntry
+    });
 
-    // Detect new readmes on ajax navigation.
-    document.body.arriveById('readme', onReadme);
-    document.body.arriveById('wiki-body', onReadme);
+    function makeEntry(_, heading, config) { // TODO: if anchorID null skip element?
+        var entry = toElement(TEMPLATE.ENTRY);
+        entry.classList.add(config.entryClass);
+        entry.href = '#' + config.anchorID;
+        entry.firstElementChild.title = config.title;
+        entry.firstElementChild.textContent = config.title;
+        if (defaults.backlinks) heading.appendChild(toElement(TEMPLATE.BACKLINK));
+        return entry;
+    }
+
+    function insertToc(toc) {
+        var target;
+
+        // Repo main page
+        target = document.querySelector(SELECTOR.REPO);
+        if (target) {
+            toc.classList.add('right');
+            toc.firstElementChild.classList.add(CLASS.CENTER_BUTTON);
+            target.appendChild(toc);
+            return true;
+        }
+
+        // Repo sub page (viewing and editing), Gist page
+        target = document.querySelector(SELECTOR.GIST);
+        if (target) {
+            toc.firstElementChild.classList.add(CLASS.CENTER_BUTTON);
+            target.insertBefore(toc, target.firstChild);
+            return true;
+        }
+
+        // Wiki main and sub page (viewing and editing)
+        target = document.querySelector(SELECTOR.WIKI);
+        if (target) {
+            target.insertBefore(toc, target.firstChild);
+            return true;
+        }
+
+        // Wiki main and sub page when logged out
+        target = document.querySelector(SELECTOR.WIKI_LOGGED_OUT);
+        if (target) {
+            toc.classList.add(CLASS.WIKI_ACTIONS);
+            target.insertBefore(toc, target.firstChild);
+            return true;
+        }
+
+        return false;
+    }
+
+    function toElement(str) {
+        var d = document.createElement('div');
+        d.innerHTML = str;
+        return d.firstChild;
+    }
 });
-

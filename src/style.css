@@ -20,5 +20,13 @@
 
 .toc-entry.select-menu-item.navigation-focus { color: white; }
 
-.toc-backlink { color: black; }
+.toc-backlink { color: black; display: none; }
 .toc-backlink > svg { vertical-align: middle; }
+h1:hover > .toc-backlink,
+h2:hover > .toc-backlink,
+h3:hover > .toc-backlink,
+h4:hover > .toc-backlink,
+h5:hover > .toc-backlink,
+h6:hover > .toc-backlink {
+    display: block;
+}
