@@ -170,7 +170,7 @@ function query(selector, scope) {
 }
 
 // Injected with gulp
-var css = '#github-toc-container { position: relative; } /* Anchor for .select-menu-modal-holder */\n#github-toc-container > .select-menu-modal-holder { right: 0; top: 20px;} /* Right-align menu on button */\n.github-toc-center-btn  { margin: -4px 0; } /* Center button in file actions bar */\n\n.github-toc-h1 { padding-left:  10px !important; font-weight: bold; font-size: 1.1em; }\n.github-toc-h2 { padding-left:  30px !important; font-weight: bold; }\n.github-toc-h3 { padding-left:  50px !important; font-weight: normal; }\n.github-toc-h4 { padding-left:  70px !important; font-weight: normal; }\n.github-toc-h5 { padding-left:  90px !important; font-weight: normal; }\n.github-toc-h6 { padding-left: 110px !important; font-weight: normal; }\n\n.github-toc-entry.select-menu-item {\n    color: black;\n    border: none;\n    line-height: 1.0;\n}\n\n.github-toc-entry.select-menu-item.navigation-focus { color: white; }\n\n.github-toc-backlink { color: black; display: none; }\n.github-toc-backlink > svg { vertical-align: middle; }\nh1:hover > .github-toc-backlink,\nh2:hover > .github-toc-backlink,\nh3:hover > .github-toc-backlink,\nh4:hover > .github-toc-backlink,\nh5:hover > .github-toc-backlink,\nh6:hover > .github-toc-backlink { display: block; }\n';
+var css = '#github-toc-container { position: relative; } /* Anchor for .select-menu-modal-holder */\n#github-toc-container > .select-menu-modal-holder { right: 0; top: 20px;} /* Right-align menu on button */\n.github-toc-center-btn  { margin: -4px 0; } /* Center button in file actions bar */\n\n.github-toc-h1 { padding-left:  10px !important; font-weight:   bold; font-size: 1.1em; }\n.github-toc-h2 { padding-left:  30px !important; font-weight:   bold; }\n.github-toc-h3 { padding-left:  50px !important; font-weight: normal; }\n.github-toc-h4 { padding-left:  70px !important; font-weight: normal; }\n.github-toc-h5 { padding-left:  90px !important; font-weight: normal; }\n.github-toc-h6 { padding-left: 110px !important; font-weight: normal; }\n\n.github-toc-entry.select-menu-item {\n    color: black !important;\n    border: none !important;\n    line-height: 1.0;\n}\n\n.github-toc-entry.select-menu-item.navigation-focus { color: white !important; }\n\n.github-toc-backlink { color: black !important; display: none; }\n.github-toc-backlink > svg { vertical-align: middle; }\n\nh1:hover > .github-toc-backlink,\nh2:hover > .github-toc-backlink,\nh3:hover > .github-toc-backlink,\nh4:hover > .github-toc-backlink,\nh5:hover > .github-toc-backlink,\nh6:hover > .github-toc-backlink { display: block; }\n';
 
 var style = document.createElement('style');
 style.textContent = css;
@@ -193,17 +193,15 @@ var classes = {
 };
 
 var selectors = {
-  tocContainer : '#' + extPrefix + '-container',
-  tocEntries   : '#' + extPrefix + '-entries',
-  readme       : '#readme .markdown-body, #wiki-wrapper .markdown-body',
+  tocContainer  : '#' + extPrefix + '-container',
+  tocEntries    : '#' + extPrefix + '-entries',
+  readme        : '#readme .markdown-body, #wiki-wrapper .markdown-body, #files .markdown-body',
+  headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor', // Relative to heading
   // Toc targets
-  repo         : '#readme > h3',
-  repoAlt      : '.file > .file-header > .file-actions',
-  wiki         : '#wiki-wrapper > .gh-header .gh-header-actions',
-  wikiAlt      : '#wiki-wrapper > .gh-header',
-  // Heading anchors (relative to heading)
-  hAnchor      : ':scope a.anchor',
-  hAnchorAlt   : 'ins a.anchor'  // Rich diff previews (when editing files)
+  repo          : '#readme > h3',
+  repoAlt       : '.file > .file-header > .file-actions',
+  wiki          : '#wiki-wrapper > .gh-header .gh-header-actions',
+  wikiAlt       : '#wiki-wrapper > .gh-header',
 };
 
 var insertTocFuncs = {
@@ -253,7 +251,15 @@ document.body.arrive(selectors.readme, true, function(readme) {
   });
 
   function getAnchorId(_, heading) {
-    var anchor = query(selectors.hAnchor, heading) || query(selectors.hAnchorAlt, heading);
+    // Include headings:
+    //   h2 > a.anchor       (normal)
+    //   ins > h2 > a.anchor (inserted in rich diff)
+    //   h2 > ins > a.anchor (modified in rich diff)
+    // Exclude:
+    //   del > h2 > a.anchor (deleted in rich diff)
+    //   h2 > del > a.anchor (modified in rich diff)
+    if (heading.parentNode.tagName.toLowerCase() === 'del' ) return null;
+    var anchor = query(selectors.headingAnchor, heading);
     return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
   }
 

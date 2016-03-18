@@ -5,16 +5,18 @@ var merge = require('event-stream').merge;
 var runSequence = require('run-sequence');
 var $ = require('gulp-load-plugins')();
 
-// TODO: Clean this mess up
+// TODO: Clean up
 
 /*** Main ***/
 
 gulp.task('build', function(cb) {
-  runSequence('clean', 'chrome', 'firefox', 'userscript', cb);
+  runSequence('clean', 'chrome', 'safari', 'firefox', 'userscript', cb);
 });
 
 gulp.task('dist', ['build'], function(cb) {
-  runSequence('chrome:dist', 'clean:chrome', 'firefox:dist', 'clean:firefox', cb);
+  runSequence('chrome:dist', 'clean:chrome',
+              'safari:dist', // 'clean:safari',
+              'firefox:dist', 'clean:firefox', cb);
 });
 
 gulp.task('default', ['build'], function () {
@@ -23,8 +25,9 @@ gulp.task('default', ['build'], function () {
 
 function clean(f) { return function() { del([f]); }; }
 gulp.task('clean', clean('dist/*'));
-gulp.task('clean:firefox', clean('dist/firefox'));
 gulp.task('clean:chrome', clean('dist/chrome'));
+gulp.task('clean:safari', clean('dist/safari.safariextension'));
+gulp.task('clean:firefox', clean('dist/firefox'));
 
 
 /*** Chrome ***/
@@ -40,13 +43,47 @@ gulp.task('chrome', ['chrome:js'], function() {
 
 gulp.task('chrome:js', function() {
   return buildJS()
-  .pipe(gulp.dest('dist/chrome'));
+    .pipe(gulp.dest('dist/chrome'));
 });
 
 gulp.task('chrome:dist', function() {
   return gulp.src('dist/chrome/**/*')
-  .pipe($.zip('chrome.zip'))
-  .pipe(gulp.dest('dist'));
+    .pipe($.zip('chrome.zip'))
+    .pipe(gulp.dest('dist'));
+});
+
+
+/*** Safari ***/
+
+gulp.task('safari', ['safari:js'], function() {
+  return merge(
+    gulp.src(['src/safari/Info.plist', 'src/style.css'])
+      .pipe(gulp.dest('dist/safari.safariextension')),
+    gulp.src('img/icons/icon128.png')
+      .pipe($.rename('Icon.png'))
+      .pipe(gulp.dest('dist/safari.safariextension/'))
+  );
+});
+
+gulp.task('safari:js', function() {
+  return buildJS()
+    .pipe(gulp.dest('dist/safari.safariextension'));
+});
+
+// TODO: Automate building Safari package
+// See: - https://www.npmjs.com/package/xar-js
+//      - http://developer.streak.com/2013/01/how-to-build-safari-extension-using.html
+gulp.task('safari:dist', function() {
+  console.log('\nTo package the Safari extension for distribution:' +
+              '\n\n- Open Extension Builder in Safari' +
+              '\n- Add `dist/safari.safariextension` as an existing extension'+
+              '\n- Build the package and save it to `dist`' +
+              '\n- (Delete `dist/safari.safariextension`)' +
+              '\n\nNote: This requires a (paid) Apple Developer Membership' +
+              '\n\nTodo: Automate this process (e.g. with: https://www.npmjs.com/package/xar-js)' +
+              '\n');
+  return gulp.src('src/safari/SafariUpdate.plist')
+    .pipe(gulp.dest('dist'));
 });
 
 
@@ -66,7 +103,7 @@ gulp.task('firefox', ['firefox:js'], function() {
 
 gulp.task('firefox:js', function() {
   return buildJS()
-  .pipe(gulp.dest('dist/firefox/data'));
+    .pipe(gulp.dest('dist/firefox/data'));
 });
 
 gulp.task('firefox:dist', function (cb) {
@@ -79,9 +116,9 @@ gulp.task('firefox:dist', function (cb) {
 
 gulp.task('userscript', function() {
   return buildJS(['src/userscript/userscript.js'])
-  .pipe($.addSrc.prepend('src/userscript/header.js'))
-  .pipe($.concat('github-toc.user.js'))
-  .pipe(gulp.dest('dist'));
+    .pipe($.addSrc.prepend('src/userscript/header.js'))
+    .pipe($.concat('github-toc.user.js'))
+    .pipe(gulp.dest('dist'));
 });
 
 

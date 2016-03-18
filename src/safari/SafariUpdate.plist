@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>Extension Updates</key>
+   <array>
+     <dict>
+       <key>CFBundleIdentifier</key>
+       <string>me.ahammer.github-toc</string>
+       <key>Developer Identifier</key>
+       <string>PY49CKQ6VF</string>
+       <key>CFBundleVersion</key>
+       <string>0.2.2</string>
+       <key>CFBundleShortVersionString</key>
+       <string>0.2.2</string>
+       <key>URL</key>
+       <string>https://github.com/arthurhammer/github-toc/releases/download/v0.2.2/safari.safariextz</string>
+     </dict>
+   </array>
+</dict>
+</plist>

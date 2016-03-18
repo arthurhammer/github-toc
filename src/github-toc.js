@@ -15,17 +15,15 @@ var classes = {
 };
 
 var selectors = {
-  tocContainer : '#' + extPrefix + '-container',
-  tocEntries   : '#' + extPrefix + '-entries',
-  readme       : '#readme .markdown-body, #wiki-wrapper .markdown-body',
+  tocContainer  : '#' + extPrefix + '-container',
+  tocEntries    : '#' + extPrefix + '-entries',
+  readme        : '#readme .markdown-body, #wiki-wrapper .markdown-body, #files .markdown-body',
+  headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor', // Relative to heading
   // Toc targets
-  repo         : '#readme > h3',
-  repoAlt      : '.file > .file-header > .file-actions',
-  wiki         : '#wiki-wrapper > .gh-header .gh-header-actions',
-  wikiAlt      : '#wiki-wrapper > .gh-header',
-  // Heading anchors (relative to heading)
-  hAnchor      : ':scope a.anchor',
-  hAnchorAlt   : 'ins a.anchor'  // Rich diff previews (when editing files)
+  repo          : '#readme > h3',
+  repoAlt       : '.file > .file-header > .file-actions',
+  wiki          : '#wiki-wrapper > .gh-header .gh-header-actions',
+  wikiAlt       : '#wiki-wrapper > .gh-header',
 };
 
 var insertTocFuncs = {
@@ -75,7 +73,15 @@ document.body.arrive(selectors.readme, true, function(readme) {
   });
 
   function getAnchorId(_, heading) {
-    var anchor = query(selectors.hAnchor, heading) || query(selectors.hAnchorAlt, heading);
+    // Include headings:
+    //   h2 > a.anchor       (normal)
+    //   ins > h2 > a.anchor (inserted in rich diff)
+    //   h2 > ins > a.anchor (modified in rich diff)
+    // Exclude:
+    //   del > h2 > a.anchor (deleted in rich diff)
+    //   h2 > del > a.anchor (modified in rich diff)
+    if (heading.parentNode.tagName.toLowerCase() === 'del' ) return null;
+    var anchor = query(selectors.headingAnchor, heading);
     return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
   }
 

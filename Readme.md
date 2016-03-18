@@ -2,19 +2,26 @@
 
 Browser extension that adds a table of contents to readmes in GitHub repos, gists and wikis. Quickly find what you are looking for.
 
-Available for [Google Chrome](https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/), and as a [userscript](https://github.com/arthurhammer/github-readme-toc/raw/master/dist/github-toc.user.js).
 
 <img style="border: 1px solid lightgrey; border-radius: 5px;" src="img/screenshots/screenshot-github.png">
+Available for [Google Chrome][Chrome], [Firefox][Firefox], [Safari][Safari] and as a [userscript][Userscript].
 
 ## Get It
 
-🚀 **[Chrome Web Store](https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn)**
+🚀 **[Chrome (Chrome Web Store)][Chrome]**
 
-🚀 **[Mozilla Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/)**
+🚀 **[Firefox (Mozilla Add-Ons)][Firefox]**
 
-🚀 **[Userscript](https://github.com/arthurhammer/github-readme-toc/raw/master/dist/github-toc.user.js)**
+🚀 **[Safari][Safari]**
 
-A Safari extension is coming soon.
+🚀 **[Userscript][Userscript]**
+
+### A Note on Safari
+
+The Safari extension is not (yet) hosted on Apple's Extension Gallery. To install, [download the extension `safari.safariextz` from the `dist` folder][Safari] and open it. Since the extension is not from the Gallery, Safari will ask you to trust the developer.
+
+
+
 
 ## Build Yourself
 
@@ -46,3 +53,9 @@ To try the extension out, test it on some of the [files linked in the `test` fol
 
 - Added Firefox version
 - Added userscript version
+
+
+[Chrome]: https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn
+[Firefox]: https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/
+[Userscript]: https://github.com/arthurhammer/github-toc/raw/master/dist/github-toc.user.js
+[Safari]: https://github.com/arthurhammer/github-toc/blob/master/dist/safari.safariextz?raw=true

@@ -2,23 +2,24 @@
 #github-toc-container > .select-menu-modal-holder { right: 0; top: 20px;} /* Right-align menu on button */
 .github-toc-center-btn  { margin: -4px 0; } /* Center button in file actions bar */
 
-.github-toc-h1 { padding-left:  10px !important; font-weight: bold; font-size: 1.1em; }
-.github-toc-h2 { padding-left:  30px !important; font-weight: bold; }
+.github-toc-h1 { padding-left:  10px !important; font-weight:   bold; font-size: 1.1em; }
+.github-toc-h2 { padding-left:  30px !important; font-weight:   bold; }
 .github-toc-h3 { padding-left:  50px !important; font-weight: normal; }
 .github-toc-h4 { padding-left:  70px !important; font-weight: normal; }
 .github-toc-h5 { padding-left:  90px !important; font-weight: normal; }
 .github-toc-h6 { padding-left: 110px !important; font-weight: normal; }
 
 .github-toc-entry.select-menu-item {
-    color: black;
-    border: none;
+    color: black !important;
+    border: none !important;
     line-height: 1.0;
 }
 
-.github-toc-entry.select-menu-item.navigation-focus { color: white; }
+.github-toc-entry.select-menu-item.navigation-focus { color: white !important; }
 
-.github-toc-backlink { color: black; display: none; }
+.github-toc-backlink { color: black !important; display: none; }
 .github-toc-backlink > svg { vertical-align: middle; }
+
 h1:hover > .github-toc-backlink,
 h2:hover > .github-toc-backlink,
 h3:hover > .github-toc-backlink,
