@@ -18,7 +18,8 @@
     "gulp": "gulp",
     "build": "gulp build",
     "dist": "gulp dist",
-    "watch": "gulp"
+    "watch": "gulp",
+    "firefox": "cd dist/firefox; ../../node_modules/jpm/bin/jpm run"
   },
   "devDependencies": {
     "del": "^2.0.2",

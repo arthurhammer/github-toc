@@ -2,9 +2,9 @@
 var TableOfContents = (function() {
 
   var defaults = {
-    // Where to insert the toc (selector or Element, first match)
+    // Where to insert the toc (selector or `Element`, first match)
     target: '#toc',
-    // Where to look for headings (selector or Element, first match)
+    // Where to look for headings (selector or `Element`, first match)
     content: 'body',
     // Which elements to create toc entries for (selector, not limited to `h1`-`h6`)
     headings: 'h1, h2, h3, h4, h5, h6',
@@ -29,7 +29,7 @@ var TableOfContents = (function() {
 
     // Creates the actual toc entry element.
     //   Default: `<entryTagType class="entryClass"><a href="#anchorId">title</a></entryTagType>`
-    // By default, entries without an anchorId are skipped.
+    // By default, entries without an `anchorId` are skipped.
     entryElement: function(i, heading, data) {
       if (!data.anchorId) return null;
 

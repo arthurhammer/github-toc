@@ -1,4 +1,4 @@
-// Injected with gulp
+// Inserted with gulp
 var css = '@@import src/style.css';
 
 var style = document.createElement('style');
