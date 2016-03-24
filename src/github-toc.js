@@ -17,7 +17,7 @@ var classes = {
 var selectors = {
   tocContainer  : '#' + extPrefix + '-container',
   tocEntries    : '#' + extPrefix + '-entries',
-  readme        : '#readme .markdown-body, #wiki-wrapper .markdown-body, #files .markdown-body',
+  readme        : '#readme .markdown-body, #wiki-body .markdown-body, #files .markdown-body',
   headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor', // Relative to heading
   // Toc targets
   repo          : '#readme > h3',

@@ -44,6 +44,7 @@ In all cases, try removing and changing existing and inserting new headings.
 
 - [Front page](https://github.com/gollum/gollum/wiki)
 - [Sub page](https://github.com/gollum/gollum/wiki/Git-adapters)
+- [Wiki with custom sidebar](https://github.com/mbostock/d3/wiki)
 
 Test while logged in and while logged out.
 
@@ -68,7 +69,7 @@ Currently there are no markup previews in gists, so nothing should happen while 
 
 - [Random](https://github.com/arthurhammer/github-readme-toc/blob/master/test/test.markdown)
 - Test other random stuff in headings, e.g. strong, italics, special characters, custom html, mix of all of these etc.
-    - e.g. edge cases like images in headings, non-breaking spaces etc. don't work currently (this is due GitHub not supporting these for the most part, it doesn't generate `id`s)
+    - e.g. edge cases like images in headings, non-breaking spaces etc. don't work currently (this is due GitHub not supporting these for the most part, it doesn't generate `id` attributes)
 
 ## Where It Shouldn't Work
 
