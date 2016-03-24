@@ -102,7 +102,7 @@ gulp.task('firefox', ['firefox:js'], function() {
 });
 
 gulp.task('firefox:js', function() {
-  return buildJS()
+  return buildJS('src/firefox/detach.js')
     .pipe(gulp.dest('dist/firefox/data'));
 });
 

@@ -2,16 +2,27 @@ Node.prototype.prependChild = function(element) {
   return this.firstChild ? this.insertBefore(element, this.firstChild) : this.appendChild(element);
 };
 
-HTMLElement.prototype.arrive = function(selectors, existing, callback) {  // TODO
+// Very rudamentary:
+//   - New observer each call
+//   - Caller responsible for storing and disconnecting observer
+//   - `querySelector` against container instead of going through actual mutations
+// For something more robust, see for example arrive.js.
+HTMLElement.prototype.arrive = function(selector, existing, callback) {
   function checkMutations() {
-    var target = query(selectors);
-    if (target) callback.call(target, target);
+    var didArriveData = 'finallyHere';
+    var target = query(selector);
+
+    if (target && !target.dataset[didArriveData]) {
+      target.dataset[didArriveData] = true;
+      callback.call(target, target);
+    }
   }
 
-  new MutationObserver(checkMutations)
-  .observe(this, { childList: true, subtree: true });
-
+  var observer = new MutationObserver(checkMutations);
+  observer.observe(this, { childList: true, subtree: true });
   if (existing) checkMutations();
+
+  return observer;
 };
 
 function toElement(str) {

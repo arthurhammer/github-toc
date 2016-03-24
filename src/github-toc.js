@@ -53,7 +53,7 @@ var defaults = {
   backlinks: true
 };
 
-document.body.arrive(selectors.readme, true, function(readme) {
+var observer = document.body.arrive(selectors.readme, true, function(readme) {
 
   if (!readme || readme.classList.contains(extPrefix)) return;
   readme.classList.add(extPrefix);
@@ -72,14 +72,14 @@ document.body.arrive(selectors.readme, true, function(readme) {
     entryElement: makeEntry
   });
 
+  // Include headings:
+  //   h2 > a.anchor       (normal)
+  //   ins > h2 > a.anchor (inserted in rich diff)
+  //   h2 > ins > a.anchor (modified in rich diff)
+  // Exclude:
+  //   del > h2 > a.anchor (deleted in rich diff)
+  //   h2 > del > a.anchor (modified in rich diff)
   function getAnchorId(_, heading) {
-    // Include headings:
-    //   h2 > a.anchor       (normal)
-    //   ins > h2 > a.anchor (inserted in rich diff)
-    //   h2 > ins > a.anchor (modified in rich diff)
-    // Exclude:
-    //   del > h2 > a.anchor (deleted in rich diff)
-    //   h2 > del > a.anchor (modified in rich diff)
     if (heading.parentNode.tagName.toLowerCase() === 'del' ) return null;
     var anchor = query(selectors.headingAnchor, heading);
     return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
@@ -106,3 +106,8 @@ document.body.arrive(selectors.readme, true, function(readme) {
   }
 
 });
+
+// For now, only used by Firefox
+function destroy() {
+  if (observer) observer.disconnect();
+}
