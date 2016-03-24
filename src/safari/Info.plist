@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.2.2</string>
+	<string>0.2.3</string>
 	<key>CFBundleVersion</key>
-	<string>0.2.2</string>
+	<string>0.2.3</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Global Page</key>
@@ -43,7 +43,7 @@
 		</array>
 	</dict>
 	<key>Description</key>
-	<string>Adds a table of contents to readmes in GitHub repos, gists and wikis.</string>
+	<string>Adds a table of contents to repositories, gists and wikis on GitHub</string>
 	<key>DeveloperIdentifier</key>
 	<string>PY49CKQ6VF</string>
 	<key>ExtensionInfoDictionaryVersion</key>

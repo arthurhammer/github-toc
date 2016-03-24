@@ -1,7 +1,7 @@
 {
   "name": "github-toc",
-  "version": "0.2.2",
-  "description": "Adds a table of contents to readmes in GitHub repos, gists and wikis.",
+  "version": "0.2.3",
+  "description": "Adds a table of contents to repositories, gists and wikis on GitHub",
   "author": "Arthur Hammer",
   "homepage": "https://github.com/arthurhammer/github-toc",
   "repository": {

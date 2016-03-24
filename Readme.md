@@ -15,7 +15,7 @@ Works almost anywhere on GitHub.
 - Supports editing and creating files and wiki pages directly on GitHub
 - It's simple and unobtrusive
 
-## Get It
+## Install
 
 🚀 **[Chrome (Chrome Web Store)][Chrome]**
 
@@ -25,13 +25,7 @@ Works almost anywhere on GitHub.
 
 🚀 **[Userscript][Userscript]**
 
-### A Note on Safari
-
-The Safari extension is not (yet) hosted on Apple's Extension Gallery. To install, [download the extension `safari.safariextz` from the `dist` folder][Safari] and open it. Since the extension is not from the Gallery, Safari will ask you to trust it.
-
-## Limitations
-
-If there are multiple files on the same page, a table of contents will currently only be shown for the first file. This is a rare issue and only occurs in gists but not in repos or wikis. Support for multiple files [might be added in the future](https://github.com/arthurhammer/github-toc/issues/5).
+Note on Safari: The Safari extension is not (yet) hosted on Apple's Extension Gallery. To install, [download the extension `safari.safariextz` from the `dist` folder][Safari] and open it. Since the extension is not from the Gallery, Safari will ask you to trust it.
 
 ## Build Yourself
 
@@ -51,15 +45,9 @@ You need [`node`](https://nodejs.org/)/[`npm`](https://www.npmjs.com/).
 
 Packaged and unpackaged builds live in the [`dist`](dist/) folder. [`gulp`](http://gulpjs.com/) is used to run the tasks (installed with the other dependencies).
 
-(The build system is a bit much for such a simple extension. I just wanted to try out `npm`, `gulp` and all the other things I hadn't used before.)
-
 ### Testing and Running Locally
 
-First build the unpackaged extensions:
-
-    npm run build
-
-Install the extensions in the browser as described below. To try the extension out, test it on the [cases described in the `test` folder](test/Readme.md).
+First, build the unpackaged extensions with `npm run build`. Then, install the extensions in the browser as described below. Test it on the [cases described in the `test` folder](test/Readme.md).
 
 #### Google Chrome
 
@@ -68,9 +56,7 @@ Install the extensions in the browser as described below. To try the extension o
 
 #### Firefox
 
-    npm run firefox
-
-This will open a new Firefox instance with the extension installed.
+`npm run firefox` opens a new Firefox instance with the extension installed.
 
 #### Safari
 
@@ -86,18 +72,26 @@ Install `dist/github-toc.user.js` directly in the browser (if supported) or with
 
 ## Changelog
 
-### 0.2.2
+#### 0.2.3
+
+- Added Safari version
+- Added support for editing and creating files on GitHub
+- Removed option to disable back to top links
+- Changed Firefox version to now require reloading existing pages on install/enable
+- Lots of internal changes
+
+#### 0.2.2
 
 - Fixed several issues caused by updates to the GitHub website
 - Various minor updates
 
-### 0.2.1
+#### 0.2.1
 
 - Added Firefox version
 - Added userscript version
 
 
-[Chrome]: https://chrome.google.com/webstore/detail/github-readme-table-of-co/hlkhpeomjgelmljaknhoboeohhgmmgcn
-[Firefox]: https://addons.mozilla.org/en-US/firefox/addon/github-readme-toc/
+[Chrome]: https://chrome.google.com/webstore/detail/table-of-contents-for-git/hlkhpeomjgelmljaknhoboeohhgmmgcn
+[Firefox]: https://addons.mozilla.org/en-US/firefox/addon/github-toc/
 [Userscript]: https://github.com/arthurhammer/github-toc/raw/master/dist/github-toc.user.js
 [Safari]: https://github.com/arthurhammer/github-toc/blob/master/dist/safari.safariextz?raw=true

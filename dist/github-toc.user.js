@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Table of Contents for GitHub
-// @description  Adds a table of contents to readmes in GitHub repos, gists and wikis.
-// @version      0.2.2
+// @description  Adds a table of contents to repositories, gists and wikis on GitHub
+// @version      0.2.3
 // @author       Arthur Hammer
 // @namespace    https://github.com/arthurhammer
 // @license      MIT
@@ -22,9 +22,9 @@
 var TableOfContents = (function() {
 
   var defaults = {
-    // Where to insert the toc (selector or Element, first match)
+    // Where to insert the toc (selector or `Element`, first match)
     target: '#toc',
-    // Where to look for headings (selector or Element, first match)
+    // Where to look for headings (selector or `Element`, first match)
     content: 'body',
     // Which elements to create toc entries for (selector, not limited to `h1`-`h6`)
     headings: 'h1, h2, h3, h4, h5, h6',
@@ -49,7 +49,7 @@ var TableOfContents = (function() {
 
     // Creates the actual toc entry element.
     //   Default: `<entryTagType class="entryClass"><a href="#anchorId">title</a></entryTagType>`
-    // By default, entries without an anchorId are skipped.
+    // By default, entries without an `anchorId` are skipped.
     entryElement: function(i, heading, data) {
       if (!data.anchorId) return null;
 
@@ -147,16 +147,27 @@ Node.prototype.prependChild = function(element) {
   return this.firstChild ? this.insertBefore(element, this.firstChild) : this.appendChild(element);
 };
 
-HTMLElement.prototype.arrive = function(selectors, existing, callback) {  // TODO
+// Very rudamentary:
+//   - New observer each call
+//   - Caller responsible for storing and disconnecting observer
+//   - `querySelector` against container instead of going through actual mutations
+// For something more robust, see for example arrive.js.
+HTMLElement.prototype.arrive = function(selector, existing, callback) {
   function checkMutations() {
-    var target = query(selectors);
-    if (target) callback.call(target, target);
+    var didArriveData = 'finallyHere';
+    var target = query(selector);
+
+    if (target && !target.dataset[didArriveData]) {
+      target.dataset[didArriveData] = true;
+      callback.call(target, target);
+    }
   }
 
-  new MutationObserver(checkMutations)
-  .observe(this, { childList: true, subtree: true });
-
+  var observer = new MutationObserver(checkMutations);
+  observer.observe(this, { childList: true, subtree: true });
   if (existing) checkMutations();
+
+  return observer;
 };
 
 function toElement(str) {
@@ -169,7 +180,7 @@ function query(selector, scope) {
   return (scope || document).querySelector(selector);
 }
 
-// Injected with gulp
+// Inserted with gulp
 var css = '#github-toc-container { position: relative; } /* Anchor for .select-menu-modal-holder */\n#github-toc-container > .select-menu-modal-holder { right: 0; top: 20px;} /* Right-align menu on button */\n.github-toc-center-btn  { margin: -4px 0; } /* Center button in file actions bar */\n\n.github-toc-h1 { padding-left:  10px !important; font-weight:   bold; font-size: 1.1em; }\n.github-toc-h2 { padding-left:  30px !important; font-weight:   bold; }\n.github-toc-h3 { padding-left:  50px !important; font-weight: normal; }\n.github-toc-h4 { padding-left:  70px !important; font-weight: normal; }\n.github-toc-h5 { padding-left:  90px !important; font-weight: normal; }\n.github-toc-h6 { padding-left: 110px !important; font-weight: normal; }\n\n.github-toc-entry.select-menu-item {\n    color: black !important;\n    border: none !important;\n    line-height: 1.0;\n}\n\n.github-toc-entry.select-menu-item.navigation-focus { color: white !important; }\n\n.github-toc-backlink { color: black !important; display: none; }\n.github-toc-backlink > svg { vertical-align: middle; }\n\nh1:hover > .github-toc-backlink,\nh2:hover > .github-toc-backlink,\nh3:hover > .github-toc-backlink,\nh4:hover > .github-toc-backlink,\nh5:hover > .github-toc-backlink,\nh6:hover > .github-toc-backlink { display: block; }\n';
 
 var style = document.createElement('style');
@@ -231,7 +242,7 @@ var defaults = {
   backlinks: true
 };
 
-document.body.arrive(selectors.readme, true, function(readme) {
+var observer = document.body.arrive(selectors.readme, true, function(readme) {
 
   if (!readme || readme.classList.contains(extPrefix)) return;
   readme.classList.add(extPrefix);
@@ -250,14 +261,14 @@ document.body.arrive(selectors.readme, true, function(readme) {
     entryElement: makeEntry
   });
 
+  // Include headings:
+  //   h2 > a.anchor       (normal)
+  //   ins > h2 > a.anchor (inserted in rich diff)
+  //   h2 > ins > a.anchor (modified in rich diff)
+  // Exclude:
+  //   del > h2 > a.anchor (deleted in rich diff)
+  //   h2 > del > a.anchor (modified in rich diff)
   function getAnchorId(_, heading) {
-    // Include headings:
-    //   h2 > a.anchor       (normal)
-    //   ins > h2 > a.anchor (inserted in rich diff)
-    //   h2 > ins > a.anchor (modified in rich diff)
-    // Exclude:
-    //   del > h2 > a.anchor (deleted in rich diff)
-    //   h2 > del > a.anchor (modified in rich diff)
     if (heading.parentNode.tagName.toLowerCase() === 'del' ) return null;
     var anchor = query(selectors.headingAnchor, heading);
     return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
@@ -284,5 +295,10 @@ document.body.arrive(selectors.readme, true, function(readme) {
   }
 
 });
+
+// For now, only used by Firefox
+function destroy() {
+  if (observer) observer.disconnect();
+}
 
 })();
