@@ -15,7 +15,7 @@ var classes = {
 };
 
 var selectors = {
-  tocContainer  : '#' + extPrefix + '-container',
+  tocContainer  : '#' + extPrefix,
   tocEntries    : '#' + extPrefix + '-entries',
   readme        : '#readme .markdown-body, #wiki-body .markdown-body, #files .markdown-body',
   headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor', // Relative to heading
@@ -90,8 +90,8 @@ var observer = document.body.arrive(selectors.readme, true, function(readme) {
     var entry = toElement(templates.entry);
     entry.classList.add(data.entryClass);
     entry.href = '#' + data.anchorId;
-    entry.firstElementChild.title = data.title;
-    entry.firstElementChild.textContent = data.title;
+    entry.title = data.title;
+    entry.textContent = data.title;
     if (defaults.backlinks) heading.appendChild(toElement(templates.backlink));
     return entry;
   }
