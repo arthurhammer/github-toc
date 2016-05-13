@@ -1,8 +1,11 @@
 var extPrefix = 'github-toc';
 var anchorIdGitHubPrefix = 'user-content-';
 
-var templates = {
-  // Inserted with gulp
+var defaults = {
+  backlinks: true
+};
+
+var templates = { // Inserted with gulp
   toc      : '@@import src/html/toc.html',
   entry    : '@@import src/html/entry.html',
   backlink : '@@import src/html/backlink.html'
@@ -17,49 +20,57 @@ var classes = {
 var selectors = {
   tocContainer  : '#' + extPrefix,
   tocEntries    : '#' + extPrefix + '-entries',
-  readme        : '#readme .markdown-body, #wiki-body .markdown-body, #files .markdown-body',
-  headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor', // Relative to heading
-  // Toc targets
-  repo          : '#readme > h3',
-  repoAlt       : '.file > .file-header > .file-actions',
-  wiki          : '#wiki-wrapper > .gh-header .gh-header-actions',
-  wikiAlt       : '#wiki-wrapper > .gh-header',
+  headingAnchor : ':scope > a.anchor, :scope > ins > a.anchor',
 };
 
-var insertTocFuncs = {
-  // Repo main page
-  repo: function(toc, target) {
-    toc.classList.add(classes.floatRight);
-    toc.firstElementChild.classList.add(classes.centerButton);
-    return target.appendChild(toc);
+var tocTargets = [
+  { // Repo main page
+    readme: '#readme .markdown-body',
+    target: '#readme > h3',
+    insert: function(toc, target) {
+      toc.classList.add(classes.floatRight);
+      toc.firstElementChild.classList.add(classes.centerButton);
+      return target.appendChild(toc);
+    }
   },
-  // Repo sub page (viewing, creating, editing files) and gists
-  repoAlt: function(toc, target) {
-    toc.firstElementChild.classList.add(classes.centerButton);
-    return target.prependChild(toc);
+  { // Repo sub page (viewing, creating, editing files) and gists
+    readme: '#files .markdown-body',
+    target: '.file > .file-header > .file-actions',
+    insert: function(toc, target) {
+      toc.firstElementChild.classList.add(classes.centerButton);
+      return target.prependChild(toc);
+    }
   },
-  // Wiki main and sub page (viewing, editing existing pages)
-  wiki: function(toc, target) {
-    return target.prependChild(toc);
+  { // Wiki main and sub page (viewing, editing existing pages)
+    readme: '#wiki-body .markdown-body',
+    target: '#wiki-wrapper > .gh-header .gh-header-actions',
+    insert: function(toc, target) {
+      return target.prependChild(toc);
+    }
   },
-  // Wiki main and sub page without actions bar (logged out or creating new pages)
-  wikiAlt: function(toc, target) {
-    toc.classList.add(classes.wikiActions);
-    return target.prependChild(toc);
+  { // Wiki main and sub page without actions bar (logged out or creating new pages)
+    readme: '#wiki-body .markdown-body',
+    target: '#wiki-wrapper > .gh-header',
+    insert: function(toc, target) {
+      toc.classList.add(classes.wikiActions);
+      return target.prependChild(toc);
+    }
   }
-};
+];
 
-var defaults = {
-  backlinks: true
-};
+var readmeSelector = tocTargets
+  .map(function(t) { return t.readme; })
+  .join(', ');
 
-var observer = document.body.arrive(selectors.readme, true, function(readme) {
+var observer = document.body.arrive(readmeSelector, true, function(readme) {
 
   if (!readme || readme.classList.contains(extPrefix)) return;
   readme.classList.add(extPrefix);
 
   var existing = query(selectors.tocContainer);
-  if (existing) existing.remove();
+  if (existing) {
+    existing.remove();
+  }
 
   var tocContainer = toElement(templates.toc);
   if (!insertToc(tocContainer)) return;
@@ -68,8 +79,8 @@ var observer = document.body.arrive(selectors.readme, true, function(readme) {
     target: selectors.tocEntries,
     content: readme,
     prefix: extPrefix,
-    anchorId: getAnchorId,
-    entryElement: makeEntry
+    anchorId: anchorId,
+    entryElement: entryElement,
   });
 
   // Include headings:
@@ -79,29 +90,36 @@ var observer = document.body.arrive(selectors.readme, true, function(readme) {
   // Exclude:
   //   del > h2 > a.anchor (deleted in rich diff)
   //   h2 > del > a.anchor (modified in rich diff)
-  function getAnchorId(_, heading) {
-    if (heading.parentNode.tagName.toLowerCase() === 'del' ) return null;
+  function anchorId(_, heading) {
+    var parentTag = heading.parentNode.tagName.toLowerCase();
+    if (parentTag === 'del' ) return null;
     var anchor = query(selectors.headingAnchor, heading);
-    return (anchor && anchor.id) ? anchor.id.split(anchorIdGitHubPrefix)[1] : null;
+    if (!anchor || !anchor.id) return null;
+
+    return anchor.id.split(anchorIdGitHubPrefix)[1];
   }
 
-  function makeEntry(_, heading, data) {
-    if (!data.anchorId) return;
+  function entryElement(_, heading, data) {
+    if (!data.anchorId) return null;
+
     var entry = toElement(templates.entry);
     entry.classList.add(data.entryClass);
     entry.href = '#' + data.anchorId;
     entry.title = data.title;
     entry.textContent = data.title;
-    if (defaults.backlinks) heading.appendChild(toElement(templates.backlink));
+
+    if (defaults.backlinks) {
+      var backlink = toElement(templates.backlink);
+      heading.appendChild(backlink);
+    }
+
     return entry;
   }
 
   function insertToc(toc) {
-    var targets = ['repo', 'repoAlt', 'wiki', 'wikiAlt'];
-
-    return targets.some(function(key) {
-      var target = query(selectors[key]);
-      return target ? insertTocFuncs[key](toc, target) : false;
+    return tocTargets.some(function(t) {
+      var target = query(t.target);
+      return target && t.insert(toc, target);
     });
   }
 

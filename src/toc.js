@@ -19,12 +19,13 @@ var TableOfContents = (function() {
       return heading.id;
     },
     // Title for a toc entry
-    title: function(i, heading) {
+    title: function(i, heading, prefix) {
       return heading.textContent.trim();
     },
     // Class to add to a toc entry
     entryClass: function(i, heading, prefix) {
-      return (prefix ? prefix + '-' : '') + heading.tagName.toLowerCase();
+      var classPrefix = prefix ? (prefix + '-') : '';
+      return  classPrefix + heading.tagName.toLowerCase();
     },
 
     // Creates the actual toc entry element.
@@ -33,13 +34,19 @@ var TableOfContents = (function() {
     entryElement: function(i, heading, data) {
       if (!data.anchorId) return null;
 
-      var a = document.createElement('a');
-      a.textContent = data.title;
-      a.href = '#' + data.anchorId;
+      var entry = document.createElement('a');
+      entry.textContent = data.title;
+      entry.href = '#' + data.anchorId;
 
-      var entry = data.entryTagType ? document.createElement(data.entryTagType) : a;
-      if (entry !== a) entry.appendChild(a);
-      if (data.entryClass) entry.classList.add(data.entryClass);
+      if (data.entryTagType) {
+        var parent = document.createElement(data.entryTagType);
+        parent.appendChild(entry);
+        entry = parent;
+      }
+
+      if (data.entryClass) {
+        entry.classList.add(data.entryClass);
+      }
 
       return entry;
     }
@@ -58,11 +65,11 @@ var TableOfContents = (function() {
       var anchorId = options.anchorId(i, h, options.prefix);
 
       var element = options.entryElement(i, h, {
-        entryTagType: options.entryTagType,
         prefix: options.prefix,
-        title: options.title(i, h),
-        entryClass: options.entryClass(i, h, options.prefix),
-        anchorId: anchorId
+        entryTagType: options.entryTagType,
+        anchorId: anchorId,
+        title: options.title(i, h, options.prefix),
+        entryClass: options.entryClass(i, h, options.prefix)
       });
 
       if (element) {
@@ -80,8 +87,12 @@ var TableOfContents = (function() {
     if (!heading || !anchorId) return;
 
     if (anchorId !== heading.id) {
-      var anchorClass = (options.prefix ? options.prefix + '-' : '') + 'anchor';
-      var anchor = heading.querySelector(':scope > .' + anchorClass) || document.createElement('span');
+      var classPrefix = options.prefix ? (options.prefix + '-') : '';
+      var anchorClass = classPrefix + 'anchor';
+      var anchor = heading.querySelector(':scope > .' + anchorClass);
+      if (!anchor) {
+        anchor = document.createElement('span');
+      }
       anchor.id = anchorId;
       anchor.classList.add(anchorClass);
       heading.insertBefore(anchor, heading.firstChild);
@@ -90,7 +101,8 @@ var TableOfContents = (function() {
 
   function getElement(element) {
     // For now, only considers first match
-    return (typeof element === 'string') ? document.querySelector(element) : element;
+    return (typeof element === 'string') ?
+      document.querySelector(element) : element;
   }
 
   // from http://youmightnotneedjquery.com/#extend
