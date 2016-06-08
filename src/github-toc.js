@@ -42,14 +42,14 @@ var tocTargets = [
     }
   },
   { // Wiki main and sub page (viewing, editing existing pages)
-    readme: '#wiki-body .markdown-body',
+    readme: '#wiki-body > .markdown-body',
     target: '#wiki-wrapper > .gh-header .gh-header-actions',
     insert: function(toc, target) {
       return target.prependChild(toc);
     }
   },
   { // Wiki main and sub page without actions bar (logged out or creating new pages)
-    readme: '#wiki-body .markdown-body',
+    readme: '#wiki-body > .markdown-body',
     target: '#wiki-wrapper > .gh-header',
     insert: function(toc, target) {
       toc.classList.add(classes.wikiActions);
