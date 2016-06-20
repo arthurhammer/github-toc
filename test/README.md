@@ -35,7 +35,7 @@ In all cases, try removing and changing existing and inserting new headings.
 
 ### Other
 
-- [Rich diffs for markup files in commit pages](https://github.com/arthurhammer/github-toc/commit/fb56f45e086ef8a3e7dc139be49decf7f4dff807?short_path=1e290ac#diff-1e290ac8433d555bce009b162cb869d0)
+- [Rich diffs for markup files in commit pages](https://github.com/arthurhammer/github-toc/commit/a2d9a04b3aa5cfbb4434c54b184c31afa3450278?short_path=1e290ac#diff-1e290ac8433d555bce009b162cb869d0)
     - (toc will currently only appear on the first rich diff)
 - Check the table of contents appears when navigating while not triggering a new page load (ajax)
     - e.g. navigate from the [main repo page](https://github.com/arthurhammer/github-toc) to the detail page for [`Readme.md`](https://github.com/arthurhammer/github-toc/blob/master/Readme.md)
@@ -67,7 +67,7 @@ Currently there are no markup previews in gists, so nothing should happen while 
 
 ## Other
 
-- [Random](https://github.com/arthurhammer/github-readme-toc/blob/master/test/test.markdown)
+- [Random](https://github.com/arthurhammer/github-toc/blob/master/test/test.markdown)
 - Test other random stuff in headings, e.g. strong, italics, special characters, custom html, mix of all of these etc.
     - e.g. edge cases like images in headings, non-breaking spaces etc. don't work currently (this is due GitHub not supporting these for the most part, it doesn't generate `id` attributes)
 

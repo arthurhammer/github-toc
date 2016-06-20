@@ -10,11 +10,11 @@
        <key>Developer Identifier</key>
        <string>PY49CKQ6VF</string>
        <key>CFBundleVersion</key>
-       <string>0.2.3</string>
+       <string>0.2.4</string>
        <key>CFBundleShortVersionString</key>
-       <string>0.2.3</string>
+       <string>0.2.4</string>
        <key>URL</key>
-       <string>https://github.com/arthurhammer/github-toc/releases/download/v0.2.3/safari.safariextz</string>
+       <string>https://github.com/arthurhammer/github-toc/releases/download/v0.2.4/safari.safariextz</string>
      </dict>
    </array>
 </dict>

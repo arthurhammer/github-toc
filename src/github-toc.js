@@ -125,7 +125,7 @@ var observer = document.body.arrive(readmeSelector, true, function(readme) {
 
 });
 
-// For now, only used by Firefox
+// For now, only used in Firefox
 function destroy() {
   if (observer) observer.disconnect();
 }

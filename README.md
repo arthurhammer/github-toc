@@ -72,6 +72,12 @@ Install `dist/github-toc.user.js` directly in the browser (if supported) or with
 
 ## Changelog
 
+#### 0.2.4
+
+- Fixed an issue where the table of contents would attach to the sidebar on wikis with custom sidebars
+- Fixed backlinks not centered in Safari
+- Minor internal changes
+
 #### 0.2.3
 
 - Added Safari version

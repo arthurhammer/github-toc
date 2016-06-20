@@ -2,7 +2,7 @@
   "title": "Table of Contents for GitHub",
   "name": "github-toc",
   "id": "@github-readme-toc",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Adds a table of contents to repositories, gists and wikis on GitHub",
   "main": "index.js",
   "author": "Arthur Hammer",

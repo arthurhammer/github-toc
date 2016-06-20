@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Table of Contents for GitHub",
   "short_name": "GitHub ToC",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": "Arthur Hammer",
   "homepage_url": "https://github.com/arthurhammer/github-toc",
   "description": "Adds a table of contents to repositories, gists and wikis on GitHub",

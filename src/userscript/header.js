@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Table of Contents for GitHub
 // @description  Adds a table of contents to repositories, gists and wikis on GitHub
-// @version      0.2.3
+// @version      0.2.4
 // @author       Arthur Hammer
 // @namespace    https://github.com/arthurhammer
 // @license      MIT

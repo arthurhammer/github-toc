@@ -1,6 +1,6 @@
 {
   "name": "github-toc",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Adds a table of contents to repositories, gists and wikis on GitHub",
   "author": "Arthur Hammer",
   "homepage": "https://github.com/arthurhammer/github-toc",
