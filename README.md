@@ -73,7 +73,7 @@ Install `dist/github-toc.user.js` directly in the browser (if supported) or with
 
 ## Changelog
 
-See [Changelog.md](Changelog.md).
+See [CHANGELOG.md](CHANGELOG.md).
 
 
 [Chrome]: https://chrome.google.com/webstore/detail/table-of-contents-for-git/hlkhpeomjgelmljaknhoboeohhgmmgcn
