@@ -37,7 +37,6 @@ var tocTargets = [
     readme: '#files .markdown-body',
     target: '.file > .file-header > .file-actions',
     insert: function(toc, target) {
-      toc.firstElementChild.classList.add(classes.centerButton);
       return target.prependChild(toc);
     }
   },
