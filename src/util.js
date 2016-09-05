@@ -28,7 +28,7 @@ HTMLElement.prototype.arrive = function(selector, existing, callback) {
 function toElement(str) {
   var d = document.createElement('div');
   d.innerHTML = str;
-  return d.firstChild;
+  return d.firstElementChild;
 }
 
 function query(selector, scope) {
