@@ -13,6 +13,10 @@
     margin: -4px 0;
 }
 
+.github-toc-right {
+    float: right;
+}
+
 .github-toc-h1 {
     padding-left: 10px !important;
     font-weight: bold;

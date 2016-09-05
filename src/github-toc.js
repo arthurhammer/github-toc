@@ -13,8 +13,8 @@ var templates = { // Inserted with gulp
 
 var classes = {
   centerButton : extPrefix + '-center-btn',
-  wikiActions  : 'gh-header-actions',
-  floatRight   : 'right'
+  floatRight   : extPrefix + '-right',
+  wikiActions  : 'gh-header-actions'
 };
 
 var selectors = {
