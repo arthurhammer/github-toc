@@ -52,12 +52,34 @@ First, build the unpackaged extensions with `npm run build`. Then, install the e
 
 #### Google Chrome
 
+**Manually**:
+
 - Open the extensions page in Chrome
 - Choose `dist/chrome` under “Load unpacked extension...”
 
+**Command line**:
+
+- `npm run chrome` opens a new Chrome instance with the extension installed.
+
+Chrome has to be closed for this to work. The path to Chrome is hard-coded, change if needed.
+
 #### Firefox
 
-`npm run firefox` opens a new Firefox instance with the extension installed.
+**Manually**:
+
+- Open `about:debugging` in Firefox
+- Choose `dist/firefox/manifest.json` under "Load Temporary Add-on"
+
+See [the documentation](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox) for more.
+
+**Command line**:
+
+- `npm run firefox` opens a new Firefox instance with the extension installed.
+
+This calls Mozilla's [`web-ext`][web-ext] tool. See its [documentation][web-ext] if it complains about unsigned extensions.
+
+[web-ext]: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
+
 
 #### Safari
 
@@ -69,7 +91,7 @@ Note: Unless you have a valid Safari Extension certificate, the extension will a
 
 #### Userscript
 
-Install `dist/github-toc.user.js` directly in the browser (if supported) or with your favorite userscript manager (e.g. [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) or [Tampermonkey](https://tampermonkey.net)).
+Install `dist/github-toc.user.js` directly in the browser if supported or with your favorite userscript manager (e.g. [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) or [Tampermonkey](https://tampermonkey.net)).
 
 ## Changelog
 

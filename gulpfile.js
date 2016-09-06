@@ -90,25 +90,25 @@ gulp.task('safari:dist', function() {
 /*** Firefox ***/
 
 gulp.task('firefox', ['firefox:js'], function() {
-  return merge(
-    gulp.src(['src/firefox/index.js', 'src/firefox/package.json'])
-      .pipe(gulp.dest('dist/firefox/')),
-    gulp.src('img/icons/icon48.png')
-      .pipe($.rename('icon.png'))
-      .pipe(gulp.dest('dist/firefox/')),
-    gulp.src('src/style.css')
-      .pipe(gulp.dest('dist/firefox/data'))
+ return merge(
+    gulp.src(['src/firefox/manifest.json', 'src/style.css'])
+      .pipe(gulp.dest('dist/firefox')),
+    gulp.src('img/icons/*')
+      .pipe(gulp.dest('dist/firefox/icons'))
   );
 });
 
 gulp.task('firefox:js', function() {
-  return buildJS('src/firefox/detach.js')
-    .pipe(gulp.dest('dist/firefox/data'));
+  return buildJS()
+    .pipe(gulp.dest('dist/firefox'));
 });
 
 gulp.task('firefox:dist', function (cb) {
-  var cmd = 'cd dist/firefox; ../../node_modules/jpm/bin/jpm xpi; mv *.xpi ../firefox.xpi';
-  exec(cmd, function (err, stdout, stderr) { cb(err); });
+  var webExt = 'node_modules/web-ext/bin/web-ext';
+  var cmd = webExt + ' build --source-dir=dist/firefox/ --artifacts-dir=dist';
+  exec(cmd, function (err) {
+    cb(err);
+  });
 });
 
 
