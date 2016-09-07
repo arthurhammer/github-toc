@@ -7,7 +7,7 @@ var $ = require('gulp-load-plugins')();
 
 // TODO: Clean up
 
-/*** Main ***/
+// ---- Main ----
 
 gulp.task('build', function(cb) {
   runSequence('clean', 'chrome', 'safari', 'firefox', 'userscript', cb);
@@ -23,14 +23,13 @@ gulp.task('default', ['build'], function () {
   gulp.watch(['./src/**/*'], ['default']);
 });
 
-function clean(f) { return function() { del([f]); }; }
 gulp.task('clean', clean('dist/*'));
 gulp.task('clean:chrome', clean('dist/chrome'));
 gulp.task('clean:safari', clean('dist/safari.safariextension'));
 gulp.task('clean:firefox', clean('dist/firefox'));
 
 
-/*** Chrome ***/
+// ---- Chrome ----
 
 gulp.task('chrome', ['chrome:js'], function() {
   return merge(
@@ -53,7 +52,7 @@ gulp.task('chrome:dist', function() {
 });
 
 
-/*** Safari ***/
+// ---- Safari ----
 
 gulp.task('safari', ['safari:js'], function() {
   return merge(
@@ -70,24 +69,24 @@ gulp.task('safari:js', function() {
     .pipe(gulp.dest('dist/safari.safariextension'));
 });
 
-// TODO: Automate building Safari package
+// Building Safari could be automated, seems more wark than worth.
 // See: - https://www.npmjs.com/package/xar-js
 //      - http://developer.streak.com/2013/01/how-to-build-safari-extension-using.html
 gulp.task('safari:dist', function() {
+  console.log('\n\x1b[1;31mSafari Extension\u001b[0;39m');
   console.log('\nTo package the Safari extension for distribution:' +
-              '\n\n- Open Extension Builder in Safari' +
-              '\n- Add `dist/safari.safariextension` as an existing extension'+
-              '\n- Build the package and save it to `dist`' +
-              '\n- (Delete `dist/safari.safariextension`)' +
+              '\n\n\t- Open Extension Builder in Safari' +
+              '\n\t- Add `dist/safari.safariextension` as an existing extension'+
+              '\n\t- Build the package and save it to `dist`' +
+              '\n\t- (Delete `dist/safari.safariextension`)' +
               '\n\nNote: This requires a (paid) Apple Developer Membership' +
-              '\n\nTodo: Automate this process (e.g. with: https://www.npmjs.com/package/xar-js)' +
               '\n');
   return gulp.src('src/safari/SafariUpdate.plist')
     .pipe(gulp.dest('dist'));
 });
 
 
-/*** Firefox ***/
+// ---- Firefox ----
 
 gulp.task('firefox', ['firefox:js'], function() {
  return merge(
@@ -112,7 +111,7 @@ gulp.task('firefox:dist', function (cb) {
 });
 
 
-/*** Userscript ***/
+// ---- Userscript ----
 
 gulp.task('userscript', function() {
   return buildJS(['src/userscript/userscript.js'])
@@ -122,7 +121,7 @@ gulp.task('userscript', function() {
 });
 
 
-/*** Helpers ***/
+// ---- Helpers ----
 
 function buildJS(additions) {
   return gulp.src('src/github-toc.js')
@@ -134,3 +133,8 @@ function buildJS(additions) {
     .pipe($.wrap('(function() {\n\n<%= contents %>\n})();'));
 }
 
+function clean(f) {
+  return function() {
+    del([f]);
+  };
+}

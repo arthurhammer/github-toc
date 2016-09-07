@@ -20,7 +20,7 @@
     "watch": "gulp",
 
     "chrome": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --load-extension=dist/chrome",
-    "firefox": "cd dist/firefox; ../../node_modules/web-ext/bin/web-ext run --pre-install",
+    "firefox": "cd dist/firefox; ../../node_modules/web-ext/bin/web-ext run --firefox-binary=/Applications/FirefoxdeveloperEdition.app/Contents/MacOS/firefox-bin",
     "gulp": "gulp"
   },
   "devDependencies": {
