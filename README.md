@@ -40,10 +40,10 @@ See [CHANGELOG](CHANGELOG.md).
 
 ## License
 
-See [LICENSE](LICENSE.md).
+See [LICENSE](LICENSE).
 
 
 [Chrome]: https://chrome.google.com/webstore/detail/table-of-contents-for-git/hlkhpeomjgelmljaknhoboeohhgmmgcn
 [Firefox]: https://addons.mozilla.org/en-US/firefox/addon/github-toc/
 [Userscript]: https://github.com/arthurhammer/github-toc/raw/master/dist/github-toc.user.js
-[Safari]: https://github.com/arthurhammer/github-toc/blob/master/dist/safari.safariextz?raw=true
+[Safari]: https://github.com/arthurhammer/github-toc/releases/download/v0.2.3/safari.safariextz

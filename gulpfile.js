@@ -116,7 +116,7 @@ gulp.task('firefox:dist', function (cb) {
 
 gulp.task('userscript', function() {
   return buildJS(['src/userscript/userscript.js'])
-    .pipe($.addSrc.prepend('src/userscript/header.js'))
+    .pipe($.addSrc.prepend('src/userscript/header.txt'))
     .pipe($.concat('github-toc.user.js'))
     .pipe(gulp.dest('dist'));
 });

@@ -1,4 +1,4 @@
-## Build
+## Building
 
 You need [`node`](https://nodejs.org/)/[`npm`](https://www.npmjs.com/).
 

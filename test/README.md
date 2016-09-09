@@ -2,7 +2,9 @@
 
 Informal (and incomplete) description of where the extension should work.
 
-These functional tests are necessary since the extension is subject to breaking whenever the GitHub website changes. **Should add proper testing in the future**.
+These functional tests are necessary since the extension is subject to breaking whenever the GitHub website changes.
+
+**TODO**: Add proper testing.
 
 ---
 
