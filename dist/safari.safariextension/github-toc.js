@@ -1,21 +1,3 @@
-// ==UserScript==
-// @name         Table of Contents for GitHub
-// @description  Adds a table of contents to repositories, gists and wikis on GitHub
-// @version      0.2.5
-// @author       Arthur Hammer
-// @namespace    https://github.com/arthurhammer
-// @license      MIT
-// @homepage     https://github.com/arthurhammer/github-toc
-// @updateURL    https://github.com/arthurhammer/github-toc/raw/master/dist/github-toc.user.js
-// @downloadURL  https://github.com/arthurhammer/github-toc/raw/master/dist/github-toc.user.js
-// @supportURL   https://github.com/arthurhammer/github-toc/issues
-// @icon64       https://github.com/arthurhammer/github-toc/raw/master/img/icons/icon128.png
-// @match        https://github.com/*/*
-// @match        https://gist.github.com/*/*
-// @run-at       document-body
-// @grant        none
-// ==/UserScript==
-
 (function() {
 
 
@@ -191,13 +173,6 @@ function toElement(str) {
 function query(selector, scope) {
   return (scope || document).querySelector(selector);
 }
-
-// Inserted with gulp
-var css = '/* Anchor for .select-menu-modal-holder */\n#github-toc {\n    position: relative;\n}\n/* Right-align menu on button */\n#github-toc > .select-menu-modal-holder {\n    right: 0;\n    top: 20px;\n}\n\n/* Center button in file actions bar */\n.github-toc-center-btn  {\n    margin-top: -5px;\n}\n\n.github-toc-right {\n    float: right;\n}\n\n.github-toc-h1 {\n    padding-left: 10px !important;\n    font-weight: bold;\n    font-size: 1.1em;\n}\n.github-toc-h2 {\n    padding-left: 30px !important;\n    font-weight: bold;\n}\n.github-toc-h3 {\n    padding-left: 50px !important;\n    font-weight: normal;\n}\n.github-toc-h4 {\n    padding-left: 70px !important;\n    font-weight: normal;\n}\n.github-toc-h5 {\n    padding-left: 90px !important;\n    font-weight: normal;\n}\n.github-toc-h6 {\n    padding-left: 110px !important;\n    font-weight: normal;\n}\n\n.github-toc-entry {\n    color: black !important;\n    border: none !important;\n    line-height: 1.0 !important;\n}\n.github-toc-entry.navigation-focus {\n    color: white !important;\n}\n\n.github-toc-backlink {\n    color: black !important;\n    display: none;\n}\n.github-toc-backlink > svg {\n    vertical-align: middle !important;\n}\n\nh1:hover > .github-toc-backlink,\nh2:hover > .github-toc-backlink,\nh3:hover > .github-toc-backlink,\nh4:hover > .github-toc-backlink,\nh5:hover > .github-toc-backlink,\nh6:hover > .github-toc-backlink {\n    display: block;\n}\n';
-
-var style = document.createElement('style');
-style.textContent = css;
-document.head.appendChild(style);
 
 var extPrefix = 'github-toc';
 var anchorIdGitHubPrefix = 'user-content-';

@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.2.5
+
+- Added a shiny new search bar
+- Fixed layout bugs caused by updates to GitHub
+- Switched the Firefox version to the new WebExtensions API
+
 ### 0.2.4
 
 - Fixed an issue where the table of contents would attach to the sidebar on wikis with custom sidebars

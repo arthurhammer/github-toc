@@ -69,7 +69,7 @@ gulp.task('safari:js', function() {
     .pipe(gulp.dest('dist/safari.safariextension'));
 });
 
-// Building Safari could be automated, seems more wark than worth.
+// Building Safari could be automated (seems more work than worth, though).
 // See: - https://www.npmjs.com/package/xar-js
 //      - http://developer.streak.com/2013/01/how-to-build-safari-extension-using.html
 gulp.task('safari:dist', function() {
@@ -103,9 +103,10 @@ gulp.task('firefox:js', function() {
 });
 
 gulp.task('firefox:dist', function (cb) {
-  var webExt = 'node_modules/web-ext/bin/web-ext';
-  var cmd = webExt + ' build --source-dir=dist/firefox/ --artifacts-dir=dist';
-  exec(cmd, function (err) {
+  var cd = 'cd dist/firefox;';
+  var build = '../../node_modules/web-ext/bin/web-ext build --artifacts-dir=.;';
+  var mv = 'mv *.zip ../firefox.zip';
+  exec(cd + build + mv, function (err) {
     cb(err);
   });
 });
@@ -135,6 +136,6 @@ function buildJS(additions) {
 
 function clean(f) {
   return function() {
-    del([f]);
+    del(f);
   };
 }
