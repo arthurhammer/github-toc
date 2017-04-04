@@ -34,13 +34,17 @@ Note on Safari: The Safari extension is not (yet) hosted on Apple's Extension Ga
 
 See [building](building.md) for more.
 
+## Contribute
+
+Contributions are welcome! 👍😀
+
 ## Changelog
 
 See [CHANGELOG](CHANGELOG.md).
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE).
 
 
 [Chrome]: https://chrome.google.com/webstore/detail/table-of-contents-for-git/hlkhpeomjgelmljaknhoboeohhgmmgcn

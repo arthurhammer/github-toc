@@ -15,11 +15,11 @@ You need [`node`](https://nodejs.org/)/[`npm`](https://www.npmjs.com/).
     # Build extensions packaged for distribution
     npm run dist
 
-Packaged and unpackaged builds live in the [`dist`](dist/) folder. [`gulp`](http://gulpjs.com/) is used to run the tasks (installed with the other dependencies).
+Packaged and unpackaged builds live in the [`dist`](dist/) folder.
 
 ### Testing in the Browser
 
-First, build the unpackaged extensions with `npm run build`. Then, install the extensions in the browsers as described below. Test it on the [cases described in the `test` folder](test/Readme.md).
+Build the unpackaged extensions with `npm run build`. Then, install the extensions in the browsers as described below. Test it on the [cases described in the `test` folder](test/Readme.md).
 
 #### Google Chrome
 
