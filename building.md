@@ -45,7 +45,7 @@ Chrome has to be closed for this to work. The path to Chrome is hard-coded, chan
 
 - `npm run firefox` opens a new Firefox instance with the extension installed.
 
-The path to Firefox is hardcoded, change if needed. Also see the documentation for Mozilla's [`web-ext`][web-ext] tool.
+See the documentation for Mozilla's [`web-ext`][web-ext] tool.
 
 [web-ext]: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
 
