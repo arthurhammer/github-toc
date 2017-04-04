@@ -1,14 +1,17 @@
-var extPrefix = 'github-toc';
-var anchorIdGitHubPrefix = 'user-content-';
+var TableOfContents = require('./toc');
+var util = require('./util');
+
+var extPrefix = 'github-toc';  // appId!?
+var anchorIdGitHubPrefix = 'user-content-';  // githubAnchorIdPrefix
 
 var defaults = {
   backlinks: true
 };
 
-var templates = { // Inserted with gulp
-  toc      : '@@import src/html/toc.html',
-  entry    : '@@import src/html/entry.html',
-  backlink : '@@import src/html/backlink.html'
+var templates = { // Inserted with webpack
+  toc      : require('./html/toc.html'),
+  entry    : require('./html/entry.html'),
+  backlink : require('./html/backlink.html')
 };
 
 var classes = {
@@ -61,17 +64,17 @@ var readmeSelector = tocTargets
   .map(function(t) { return t.readme; })
   .join(', ');
 
-var observer = document.body.arrive(readmeSelector, true, function(readme) {
+document.body.arrive(readmeSelector, true, function(readme) {
 
   if (!readme || readme.classList.contains(extPrefix)) return;
   readme.classList.add(extPrefix);
 
-  var existing = query(selectors.tocContainer);
+  var existing = util.query(selectors.tocContainer);
   if (existing) {
     existing.remove();
   }
 
-  var tocContainer = toElement(templates.toc);
+  var tocContainer = util.toElement(templates.toc);
   if (!insertToc(tocContainer)) return;
 
   TableOfContents.toc({
@@ -92,7 +95,7 @@ var observer = document.body.arrive(readmeSelector, true, function(readme) {
   function anchorId(_, heading) {
     var parentTag = heading.parentNode.tagName.toLowerCase();
     if (parentTag === 'del' ) return null;
-    var anchor = query(selectors.headingAnchor, heading);
+    var anchor = util.query(selectors.headingAnchor, heading);
     if (!anchor || !anchor.id) return null;
 
     return anchor.id.split(anchorIdGitHubPrefix)[1];
@@ -101,14 +104,14 @@ var observer = document.body.arrive(readmeSelector, true, function(readme) {
   function entryElement(_, heading, data) {
     if (!data.anchorId) return null;
 
-    var entry = toElement(templates.entry);
+    var entry = util.toElement(templates.entry);
     entry.classList.add(data.entryClass);
     entry.href = '#' + data.anchorId;
     entry.title = data.title;
     entry.textContent = data.title;
 
     if (defaults.backlinks) {
-      var backlink = toElement(templates.backlink);
+      var backlink = util.toElement(templates.backlink);
       heading.appendChild(backlink);
     }
 
@@ -117,14 +120,9 @@ var observer = document.body.arrive(readmeSelector, true, function(readme) {
 
   function insertToc(toc) {
     return tocTargets.some(function(t) {
-      var target = query(t.target);
+      var target = util.query(t.target);
       return target && t.insert(toc, target);
     });
   }
 
 });
-
-// For now, only used in Firefox
-function destroy() {
-  if (observer) observer.disconnect();
-}

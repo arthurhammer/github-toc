@@ -134,3 +134,5 @@ var TableOfContents = (function() {
   };
 
 })();
+
+module.exports = TableOfContents;

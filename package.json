@@ -13,29 +13,31 @@
     "email": "arthur@ahammer.me"
   },
   "license": "MIT",
-  "main": "github-toc-js",
+  "main": "index.js",
   "scripts": {
-    "build": "gulp build",
-    "dist": "gulp dist",
-    "watch": "gulp",
+    "clean": "rm -rf dist/*",
+    "clean:build": "cd dist; rm -rf chrome firefox github-toc.js",
+
+    "build": "npm-run-all build:js --parallel build:chrome build:firefox build:safari build:userscript",
+    "build:js": "webpack",
+    "build:chrome": "dest=dist/chrome; mkdir -p $dest; cp -r dist/github-toc.js img/icons src/style.css src/chrome/* $dest",
+    "build:firefox": "dest=dist/firefox; mkdir -p $dest; cp -r dist/github-toc.js img/icons src/style.css src/firefox/* $dest",
+    "build:safari": "dest=dist/safari.safariextension; mkdir -p $dest; cp -r dist/github-toc.js src/style.css src/safari/Info.plist $dest; cp img/icons/icon128.png $dest/Icon.png",
+    "build:userscript": "cat src/userscript/header.txt dist/github-toc.js > dist/github-toc.user.js",
+
+    "dist": "npm-run-all clean build --parallel dist:* --sequential clean:build",
+    "dist:chrome": "cd dist; zip -r chrome.zip chrome > /dev/null",
+    "dist:firefox": "cd dist/firefox; web-ext build --artifacts-dir=. && mv *.zip ../firefox.zip",
+    "dist:safari": "cp src/safari/SafariUpdate.plist dist; echo '[SAFARI EXTENSION]\nTo package Safari extension, use Extension Builder on dist/safariextension from within Safari.\nRequires a paid Apple Developer Membership.'",
+    "dist:userscript": "npm run build:userscript",
 
     "chrome": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --load-extension=dist/chrome",
-    "firefox": "cd dist/firefox; ../../node_modules/web-ext/bin/web-ext run --firefox-binary=/Applications/FirefoxdeveloperEdition.app/Contents/MacOS/firefox-bin",
-    "gulp": "gulp"
+    "firefox": "cd dist/firefox; ../../node_modules/web-ext/bin/web-ext run --firefox-binary=/Applications/FirefoxdeveloperEdition.app/Contents/MacOS/firefox-bin"
   },
   "devDependencies": {
-    "del": "^2.0.2",
-    "event-stream": "^3.3.1",
-    "gulp": "^3.9.0",
-    "gulp-add-src": "^0.2.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-js-html-inject-tmp": "^1.0.5",
-    "gulp-jshint": "^1.11.2",
-    "gulp-load-plugins": "^0.10.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-wrap": "^0.11.0",
-    "gulp-zip": "^3.0.2",
-    "run-sequence": "^1.1.3",
-    "web-ext": "^1.4.0"
+    "html-loader": "^0.4.5",
+    "npm-run-all": "^4.0.2",
+    "web-ext": "^1.4.0",
+    "webpack": "^2.3.3"
   }
 }

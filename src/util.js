@@ -10,7 +10,7 @@ Node.prototype.prependChild = function(element) {
 HTMLElement.prototype.arrive = function(selector, existing, callback) {
   function checkMutations() {
     var didArriveData = 'finallyHere';
-    var target = query(selector);
+    var target = module.exports.query(selector);
 
     if (target && !target.dataset[didArriveData]) {
       target.dataset[didArriveData] = true;
@@ -25,12 +25,15 @@ HTMLElement.prototype.arrive = function(selector, existing, callback) {
   return observer;
 };
 
-function toElement(str) {
-  var d = document.createElement('div');
-  d.innerHTML = str;
-  return d.firstElementChild;
-}
+module.exports = {
 
-function query(selector, scope) {
-  return (scope || document).querySelector(selector);
-}
+  toElement: function(str) {
+    var d = document.createElement('div');
+    d.innerHTML = str;
+    return d.firstElementChild;
+  },
+
+   query: function(selector, scope) {
+    return (scope || document).querySelector(selector);
+  }
+};
