@@ -22,18 +22,19 @@
     "build:chrome": "dest=dist/chrome; mkdir -p $dest; cp -r dist/github-toc.js img/icons src/style.css src/chrome/* $dest",
     "build:firefox": "dest=dist/firefox; mkdir -p $dest; cp -r dist/github-toc.js img/icons src/style.css src/firefox/* $dest",
     "build:safari": "dest=dist/safari.safariextension; mkdir -p $dest; cp -r dist/github-toc.js src/style.css src/safari/Info.plist $dest; cp img/icons/icon128.png $dest/Icon.png",
-    "build:userscript": "cat src/userscript/header.txt dist/github-toc.js > dist/github-toc.user.js",
+    "build:userscript": "TARGET=userscript webpack; cat src/userscript/header.txt dist/github-toc.user.js > dist/tmp; mv dist/tmp dist/github-toc.user.js",
     "dist": "npm-run-all clean build --parallel dist:* --sequential clean:build",
     "dist:chrome": "cd dist; zip -r chrome.zip chrome > /dev/null",
-    "dist:firefox": "cd dist/firefox; web-ext build --artifacts-dir=. && mv *.zip ../firefox.zip",
-    "dist:safari": "cp src/safari/SafariUpdate.plist dist; echo '[SAFARI EXTENSION]\nTo package Safari extension, use Extension Builder on dist/safariextension from within Safari.\nRequires a paid Apple Developer Membership.'",
-    "dist:userscript": "npm run build:userscript",
+    "dist:firefox": "cd dist/firefox; web-ext build -a=. && mv *.zip ../firefox.zip",
+    "dist:safari": "cp src/safari/SafariUpdate.plist dist",
     "chrome": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --load-extension=dist/chrome",
     "firefox": "cd dist/firefox; web-ext run --start-url https://github.com/arthurhammer/github-toc"
   },
   "devDependencies": {
     "html-loader": "^0.4.5",
     "npm-run-all": "^4.0.2",
+    "raw-loader": "^0.5.1",
+    "uglifyjs-webpack-plugin": "^0.4.0",
     "web-ext": "^1.8.1",
     "webpack": "^2.3.3"
   }

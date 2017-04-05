@@ -13,5 +13,5 @@
 // @match        https://github.com/*/*
 // @match        https://gist.github.com/*/*
 // @run-at       document-body
-// @grant        none
+// @grant        GM_addStyle
 // ==/UserScript==
