@@ -1,3 +1,8 @@
+/* Menu button positioning */
+.select-menu-button {
+    margin-right: 5px;
+}
+
 /* Anchor for .select-menu-modal-holder */
 #github-toc {
     position: relative;
