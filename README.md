@@ -1,3 +1,6 @@
+**Note**: This project is not maintained anymore. At this point, GitHub is changing too rapidly to maintain compatibility.
+
+
 # Table of Contents for GitHub
 
 Browser extension that adds a table of contents to repositories, gists and wikis.
