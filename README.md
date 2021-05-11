@@ -1,7 +1,10 @@
-**Note**: This project is not maintained anymore. At this point, GitHub is changing too rapidly to maintain compatibility.
-
-
 # Table of Contents for GitHub
+
+---
+
+**Note**: GitHub finally [added this feature natively to the site](https://github.com/isaacs/github/issues/215#issuecomment-807688648)! As such, this project is not maintained anymore.
+
+---
 
 Browser extension that adds a table of contents to repositories, gists and wikis.
 
